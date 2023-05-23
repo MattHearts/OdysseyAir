@@ -1,0 +1,392 @@
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+.grida {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows:auto 1fr auto;
+  grid-template-columns: 100%;
+}
+header{
+grid-row:1/2;
+}
+footer{
+grid-row:3/4;
+}
+
+
+
+
+.page{
+grid-row:2/3;
+}
+
+
+  .header{
+    
+  height: 240;
+  width: auto;
+  background: #12bbc7;
+  display: grid;
+  grid-template-columns: 50px 280px 2.5fr 250px 100px;
+  grid-template-rows:10px 80px 40px 10px;
+
+}
+
+.resize {
+
+  width:280px;
+  height:120px;
+
+}
+.title
+{
+  grid-column: 2/3;
+  grid-row: 2/4;
+  
+}
+
+.manage-box{
+grid-column: 4/5;
+grid-row: 2/3;
+border-style: solid;
+border-color: white;
+text-align: center;
+color: white;
+border-radius: 5px;
+align-self: center;
+transition-duration: 0.4s;
+}
+
+.manage-box:hover{
+background-color: white;
+color: #12bbc7;
+}
+
+.info{
+  grid-column: 4/5;
+  grid-row: 3/4;
+  text-align: center;
+  color: white;
+  align-self: center;
+  text-decoration: none;
+}
+.info a{
+  color: white;
+  text-decoration: none;
+}
+
+.info a:hover{
+  color: white;
+  text-decoration:underline;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(35, 35, 39);
+}
+
+li {
+  float: left;
+}
+
+.list12345{
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  float:left;
+
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: white;
+  color:rgb(14, 14, 15);
+}
+
+.big-image-index{
+  
+      width: 100%;
+      height: 550px;
+      background-image: url('santorini-view.jpg');
+      background-size: cover;
+      grid-row:2/3;
+      display: grid;
+      grid-template-rows:380px 150px 20px;
+      grid-template-columns: 1fr 1200px 5fr;
+     
+}
+
+.search-flights-form{
+  background-color: rgba(30, 185, 196, 0.87);
+  grid-row: 2/3;
+  grid-column: 2/3;
+  display: grid;
+  grid-template-columns:30px 1fr 1fr 0.5fr 0.6fr 0.6fr 0.1fr 1fr   30px;
+  border-radius: 10px;
+  
+}
+
+.search-form-dep-air{
+  grid-column: 2/3;
+  align-self: center;
+  
+}
+
+.search-form-dep-air label{
+  margin: 8px 25px;
+  color:white;
+}
+.search-form-dep-air input{
+  width: 90%;
+  padding: 12px 20px;
+  margin: 8px 12px;
+  box-sizing: border-box;
+  border-radius: 50px;
+  border: 2px solid white;
+  transition: width 0.4s ease-in-out;
+}
+.search-form-dep-air input:focus{
+  width: 95%;
+}
+
+.search-form-dest-air{
+  grid-column: 3/4;
+  align-self: center;
+}
+
+.search-form-dest-air label{
+  margin: 8px 25px;
+  color:white;
+}
+
+
+.search-form-dest-air input{
+  width: 90%;
+  padding: 12px 20px;
+  margin: 8px 12px;
+  box-sizing: border-box;
+  border-radius: 50px;
+  border: 2px solid white;
+  transition: width 0.4s ease-in-out;
+}
+
+.search-form-dest-air input:focus{
+  width: 95%;
+}
+
+.search-form-pass{
+  grid-column: 4/5;
+  align-self: center;
+  justify-content: center;
+
+  
+}
+
+.search-form-pass select{
+  width: 80%;
+  padding: 12px 20px;
+  margin: 8px 12px;
+  box-sizing: border-box;
+  border-radius: 50px;
+  border: 2px solid white;
+  transition: width 0.4s ease-in-out;
+}
+.search-form-pass label{
+  margin: 8px 25px;
+  color:white;
+}
+
+.search-form-dep-date{
+  grid-column: 5/6;
+  align-self: center;
+  justify-content: center;
+
+  
+}
+.search-form-dep-date label{
+  margin: 8px 25px;
+  color:white;
+}
+
+.search-form-dep-date input{
+  width: 90%;
+  padding: 12px 20px;
+  margin: 8px 12px;
+  box-sizing: border-box;
+  border-radius: 50px;
+  border: 2px solid white;
+  transition: width 0.4s ease-in-out;
+
+
+}
+
+
+.search-form-ret-date{
+  grid-column: 6/7;
+  align-self: center;
+  justify-content: center;
+
+  
+}
+
+.search-form-ret-date input{
+  width: 90%;
+  padding: 12px 20px;
+  margin: 8px 12px;
+  box-sizing: border-box;
+  border-radius: 50px;
+  border: 2px solid white;
+  transition: width 0.4s ease-in-out;
+  pointer-events:none;
+}
+.search-form-ret-date label{
+  margin: 8px 25px;
+  color:white;
+}
+/*.who_button{
+  width: 80%;
+  background-color: white;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
+  color: black;
+  padding: 12px 20px;
+  margin: 8px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  transition: all 0.5s;
+  cursor: pointer;
+  border-radius:50px;
+  align-self:center;
+}*/
+
+
+
+.find-flights{
+  grid-column: 8/9;
+  align-self: center;
+  justify-content: center;
+  
+}
+
+.find-flights label{
+  margin: 8px 25px;
+  color:white;
+  font-size: small;
+}
+
+.button{
+  align-self: center;
+  justify-content: center;
+  width: 250px;
+  background-color: #12bbc7;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
+  color: white;
+  padding: 12px 20px;
+  margin: 8px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition: all 0.5s;
+  cursor: pointer;
+  border-radius:50px;
+  align-self:center;
+}
+
+.button:hover {
+  background-color: white;
+  color: #12bbc7;
+  border-radius:5px;
+}
+
+/* The Modal (background) */
+.modal {
+display: none; /* Hidden by default */
+position: fixed; /* Stay in place */
+z-index: 1; /* Sit on top */
+left: 0;
+top: 0;
+width: 100%; /* Full width */
+height: 100%; /* Full height */
+overflow: auto; /* Enable scroll if needed */
+background-color: rgb(0,0,0); /* Fallback color */
+background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* The Close Button */
+.close {
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+color: black;
+text-decoration: none;
+cursor: pointer;
+}
+
+/* Modal Header */
+.modal-header {
+padding: 2px 16px;
+background-color: #12bbc7;
+color: white;
+}
+
+
+/* Modal Footer */
+.modal-footer {
+padding: 2px 16px;
+background-color: white;
+color: white;
+border-top: 1px solid #aaa;
+}
+
+/* Modal Content */
+.modal-content {
+position: relative;
+background-color: #fefefe;
+margin: 15% auto;
+padding: 0;
+width: 80%;
+box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+border: 1px solid #12bbc7;
+width: 400px; /* Could be more or less, depending on screen size */
+}
+
+.modal-body-1,.modal-body-2{
+/* padding: 2px 16px;*/
+padding-left: 20px;
+display:grid;
+grid-template-columns: 50% 50%;
+}
+
+.modal-body-label-1,.modal-body-label-2{
+grid-column: 1/2;
+}
+
+
+
