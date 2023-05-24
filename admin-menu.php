@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-if (isset($_POST['add-flights-button'])) {
+
+if (isset($_POST['manage-flights-button'])) {
     header("Location: manage-flights.php");
     exit();
 }
@@ -14,18 +15,19 @@ if (isset($_POST['manage-passengers-button'])) {
 include "header-admin.html";
 
 ?>
-
+<link rel="stylesheet" href="admin.css?v=<?php echo time(); ?>">
 <div class="layout">
     <div class="options-box">
         <h2 style="text-align: center;">Choose one of the following:</h2>
-        <div class="options-buttons">
+        
             <form method="post">
-                <button type="submit" name="add-flights-button" class="add-flights-button">Add/Remove flights</button>
-            </form>
-            <form method="post">
+            <div class="options-buttons">
+                <button type="submit" name="manage-flights-button" class="manage-flights-button">Add/Remove flights</button>
+            
                 <button type="submit" name="manage-passengers-button" class="manage-passengers-button">Manage Passengers</button>
+                </div>
             </form>
-        </div>
+        
     </div>
 </div>
 
