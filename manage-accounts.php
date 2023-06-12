@@ -1,0 +1,48 @@
+<?php
+session_start();
+include "header-admin.html";
+include "admin-options.php";
+
+
+$options = new AdminOptions();
+$userList = $options->getUserList();
+
+?>
+<link rel="stylesheet" href="admin.css?v=<?php echo time(); ?>">
+
+<div class="layout2">
+    <div class="flight-list">
+        <h2 style="text-align: center;">Accounts List</h2>
+    
+
+        <div class="flight-list-container">
+            
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Surname</th>
+                            <th>Account Type</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        foreach ($userList as $user) {
+                            echo "<tr>";
+                            echo "<td>" . $user['username'] . "</td>";
+                            echo "<td>" . $user['surname'] . "</td>";
+                            echo "<td>" . $user['type'] . "</td>";
+                            echo "<td><button class='bookings-button' onclick='viewAccountBookings(\"" . $user['username'] . "\")' id='bookings-button'>Bookings</button></td>";
+                            echo "</tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="adminAccountsScript.js"></script>

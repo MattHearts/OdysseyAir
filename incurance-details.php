@@ -42,12 +42,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 {
     for($x=1;$x<=$srch1->whosGoing;$x++)
     {
-    $_SESSION['incurance'.$x]= $_POST['incurance'.$x];
-    if($_POST['incurance'.$x]=="noIncurance"){
-        $_SESSION['incuranceCost'.$x]=0;
+    $_SESSION['insurance'.$x]= $_POST['insurance'.$x];
+    if($_POST['insurance'.$x]=="noInsurance"){
+        $_SESSION['insuranceCost'.$x]=0;
+        $_SESSION['insurance'.$x]="no_insurance";
     }
     else{
-        $_SESSION['incuranceCost'.$x]=8;
+        $_SESSION['insuranceCost'.$x]=8;
+        $_SESSION['insurance'.$x]="go_insurance";
     }
     
     }
@@ -72,13 +74,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     ?>
                     <div class="form-row">
                     <div class="form-label">
-                        <label for="incurance<?php echo $x;?>"><h2><?php echo $_SESSION['passengerName'.$x]." ".$_SESSION['passengerSurname'.$x]; ?></h2></label>
+                        <label for="insurance<?php echo $x;?>"><h2><?php echo $_SESSION['passengerName'.$x]." ".$_SESSION['passengerSurname'.$x]; ?></h2></label>
                     </div>
                     <div class="form-select">
-                        <select name="incurance<?php echo $x;?>" id="incurance">
+                        <select name="insurance<?php echo $x;?>" id="insurance">
 
-                        <option value="noIncurance">No Thanks</option>
-                        <option value="yesIncurance">Add Incurance - 8&euro;</option>
+                        <option value="noInsurance">No Thanks</option>
+                        <option value="goInsurance">Add Go Insurance - 8&euro;</option>
             
                         </select>
                     </div>

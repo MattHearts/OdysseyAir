@@ -7,8 +7,12 @@ if (isset($_POST['manage-flights-button'])) {
     exit();
 }
 
-if (isset($_POST['manage-passengers-button'])) {
-    header("Location: manage-passengers.php");
+if (isset($_POST['manage-airports-button'])) {
+    header("Location: manage-airports.php");
+    exit();
+}
+if (isset($_POST['manage-accounts-button'])) {
+    header("Location: manage-accounts.php");
     exit();
 }
 
@@ -23,8 +27,8 @@ include "header-admin.html";
             <form method="post">
             <div class="options-buttons">
                 <button type="submit" name="manage-flights-button" class="manage-flights-button">Add/Remove flights</button>
-            
-                <button type="submit" name="manage-passengers-button" class="manage-passengers-button">Manage Passengers</button>
+                <button type="submit" name="manage-airports-button" class="manage-airports-button">Manage Airports</button>
+                <button type="submit" name="manage-accounts-button" class="manage-accounts-button">Manage Accounts</button>
                 </div>
             </form>
         

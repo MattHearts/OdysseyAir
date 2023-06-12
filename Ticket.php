@@ -9,12 +9,13 @@ class Ticket{
     public $passengerSurname;
     public $passengerTitle;
     public $passengerSeat;
-    public $incurance;
+    public $insurance;
     public $message;
     public $passengerNameList=array();
     public $passengerSurnameList=array();
     public $passengerTitleList=array();
     public $passengerSeatList=array();
+    public $passengerInsuranceList=array();
 
 
 
@@ -29,16 +30,16 @@ class Ticket{
         $this->passengerSurname=$_SESSION['passengerSurname'.$x];
         $this->passengerTitle=$_SESSION['passengerTitle'.$x];
         $this->passengerSeat=$_SESSION['passengerSeat'.$x];
-        $this->incurance=$_SESSION['incurance'.$x];
+        $this->insurance=$_SESSION['insurance'.$x];
         
-        $registerquery = "INSERT INTO passengers (flight_id, booking_id, name, surname, title, seat)
-        VALUES ('$this->flightID','$this->bookingID','$this->passengerName', '$this->passengerSurname','$this->passengerTitle','$this->passengerSeat')";
+        $registerquery = "INSERT INTO passengers (flight_id, booking_id, name, surname, title, seat, insurance)
+        VALUES ('$this->flightID','$this->bookingID','$this->passengerName', '$this->passengerSurname','$this->passengerTitle','$this->passengerSeat','$this->insurance')";
         
         if ($conn->query($registerquery)) 
         {
         
             
-           
+            $this->message = "Success!";
             
             
         }
@@ -47,39 +48,21 @@ class Ticket{
     function register_booking()
     {
         require "config.php";
-
-
-        $this->username=$_SESSION['username'];
-        
+    
+        $this->username = $_SESSION['username'];
+    
         ///////////////////////////////////////////////
-        $registerquery = "INSERT INTO bookings (username)
-        VALUES ('$this->username')";
-        $result =$conn->query($registerquery);
-        if ($conn->query($registerquery)) 
-        {
-            $conn->close();
-
+        $registerquery = "INSERT INTO bookings (username) VALUES ('$this->username')";
+        $result = $conn->query($registerquery);
+        if ($result) {
+            $this->bookingID = $conn->insert_id;
+            $_SESSION['bookingID'] = $this->bookingID;
+        } else {
+            $this->message = "Something went wrong";
         }
-        require "config.php";
-
-        $loginquery = "SELECT * FROM bookings WHERE username='$this->username'";
-        $result =$conn->query($loginquery);
-        if ($result->num_rows > 0) 
-        {
-            $row = $result->fetch_assoc();
-            $this->bookingID= $row['booking_id'];
-
-            
-            $_SESSION['bookingID']=$this->bookingID;
-            $conn->close();
-        }
-        else
-        {
-            $conn->close();
-            $this->message = "Something went Wrong";
-        }
+    
+        $conn->close();
     }
-
  function show_booking()
     {
         $this->bookingID=$_SESSION["bookingID"];
@@ -89,8 +72,8 @@ class Ticket{
         $result =$conn->query($bookingquery);
         if ($result->num_rows > 0) 
         {   
-            $row = $result->fetch_assoc();
-            $this->flightID= $row['flight_id'];
+            //$row = $result->fetch_assoc();
+            //$this->flightID= $row['flight_id'];
             // Loop through each row
             $x=0;
         while ($row = $result->fetch_assoc()) {
@@ -102,9 +85,11 @@ class Ticket{
         $this->passengerSurnameList[$x]=$row['surname'];
         $this->passengerTitleList[$x]=$row['title'];
         $this->passengerSeatList[$x]=$row['seat'];
+        $this->passengerInsuranceList[$x]=$row['insurance'];
 
             $x++;
         }
+        
             $conn->close();
     }
         else

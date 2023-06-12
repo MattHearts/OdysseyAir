@@ -121,7 +121,7 @@ class Search{
         }
         else{$_SESSION['depDateMinus3'] ="ha";}
 
-        $search_query = "SELECT * FROM  flights WHERE dep_date='$this->depDateMinus3';";
+        $search_query = "SELECT * FROM  flights WHERE dep_airport='$this->searchDepAirport' AND dest_airport='$this->searchDestAirport' AND dep_date='$this->depDateMinus3';";
         $result = $conn->query($search_query);
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -144,7 +144,7 @@ class Search{
             }
             else{$_SESSION['depDateMinus2'] ="ha";}
 
-            $search_query = "SELECT * FROM  flights WHERE dep_date='$this->depDateMinus2';";
+            $search_query = "SELECT * FROM  flights WHERE dep_airport='$this->searchDepAirport' AND dest_airport='$this->searchDestAirport' AND dep_date='$this->depDateMinus2';";
             $result = $conn->query($search_query);
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
@@ -167,7 +167,7 @@ class Search{
             }
             else{$_SESSION['depDateMinus1'] ="ha";}
 
-            $search_query = "SELECT * FROM  flights WHERE dep_date='$this->depDateMinus1';";
+            $search_query = "SELECT * FROM  flights WHERE dep_airport='$this->searchDepAirport' AND dest_airport='$this->searchDestAirport' AND dep_date='$this->depDateMinus1';";
             $result = $conn->query($search_query);
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
@@ -190,7 +190,7 @@ class Search{
             }
             else{$_SESSION['depDatePlus1'] ="ha";}
 
-            $search_query = "SELECT * FROM  flights WHERE dep_date='$this->depDatePlus1';";
+            $search_query = "SELECT * FROM  flights WHERE dep_airport='$this->searchDepAirport' AND dest_airport='$this->searchDestAirport' AND dep_date='$this->depDatePlus1';";
             $result = $conn->query($search_query);
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
@@ -213,7 +213,7 @@ class Search{
             }
             else{$_SESSION['depDatePlus3'] ="ha";}
 
-            $search_query = "SELECT * FROM  flights WHERE dep_date='$this->depDatePlus3';";
+            $search_query = "SELECT * FROM  flights WHERE dep_airport='$this->searchDepAirport' AND dest_airport='$this->searchDestAirport' AND dep_date='$this->depDatePlus3';";
             $result = $conn->query($search_query);
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
@@ -235,7 +235,7 @@ class Search{
             }
             else{$_SESSION['depDatePlus2'] ="ha";}
 
-            $search_query = "SELECT * FROM  flights WHERE dep_date='$this->depDatePlus2';";
+            $search_query = "SELECT * FROM  flights WHERE dep_airport='$this->searchDepAirport' AND dest_airport='$this->searchDestAirport' AND dep_date='$this->depDatePlus2';";
             $result = $conn->query($search_query);
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();

@@ -44,8 +44,9 @@ if (!empty($flightList)) {?>
         echo "<td>" . $flight['arr_time'] . "</td>";
         echo "<td>" . $flight['duration_min'] . " minutes</td>";
         echo "<td>" . $flight['price'] . "</td>";
-        echo "<td><button class='edit-button'>Edit</button></td>";
-        echo "<td><button class='delete-button' data-flight-id='" . $flight['flight_id'] . "'>Delete</button></td>";
+        echo "<td><button class='passengers-button' data-flight-id='" . $flight['flight_id'] . "' id='passengers-button'>Passengers</button></td>";
+        echo "<td><button class='edit-button' data-flight-id='" . $flight['flight_id'] . "' id='edit-flights-button'>Edit</button></td>";
+        echo "<td><button class='delete-button' onclick='deleteFlight(" . $flight['flight_id'] . ")'>Cancel</button></td>";
         echo "</tr>";
     }
 } else {
