@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Checkout</title>
+        <style>
+             .header{
+            height: 240;
+            width: auto;
+            background: #12bbc7;
+            display: grid;
+            grid-template-columns: 50px 280px 2.5fr 250px 100px;
+            grid-template-rows:10px 80px 40px 10px;
+        
+        
+        }
+        
+        .resize {
+          
+            width:280px;
+            height:120px;
+          
+        }
+        .title
+        {
+            grid-column: 2/3;
+            grid-row: 2/4;
+            
+        }
+        ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(35, 35, 39);
+  }
+
+  li{
+    float:left;
+  }
+   .b{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    float:left;
+
+  }
+
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border-right:solid 1px ;
+  }
+
+  li a:hover {
+    background-color: white;
+    color:rgb(14, 14, 15);
+    border-right:solid 1px ;
+  }
+
+  .layout{
+    display:grid;
+    grid-template-columns: 1fr 5fr 1fr;
+  }
+  .content{
+    grid-column: 2/3;
+  }
+
+  i {
+        color: #9ABC66;
+        font-size: 100px;
+        line-height: 200px;
+        margin-left:-15px;
+      }
+      .card {
+        background: white;
+        padding: 60px;
+        border-radius: 4px;
+        box-shadow: 0 2px 3px #C8D0D8;
+        display: inline-block;
+        margin: 0 auto;
+      }
+      .success-box{
+        text-align: center;
+        padding: 40px 0;
+        background: #EBF0F5;
+      }
+      .h1s {
+          color: #88B04B;
+
+          font-weight: 900;
+          font-size: 40px;
+          margin-bottom: 10px;
+        }
+        .ps {
+          color: #404F5E;
+
+          font-size:20px;
+          margin: 0;
+        }
+.passengers-box
+{
+background-color: #12bbc7b9;
+display: grid;
+grid-template-rows: 25px 25px;
+padding:15px;
+margin-bottom:20px;
+}
+.label
+{
+grid-row: 1/2;
+display: grid;
+grid-template-columns: 2fr 1fr 1fr;
+align-content: center;
+}
+.passenger-info
+{
+  grid-row: 2/3;
+  display: grid;
+grid-template-columns: 2fr 1fr 1fr;
+margin-bottom: 0px;
+align-content: center;
+}
+.name-label{
+grid-column: 1/2;
+color:white;
+
+}
+.seat-label
+{
+  grid-column: 2/3;
+  color:white;
+}
+.incurance-label
+{
+  grid-column: 3/4;
+  color:white;
+}
+.passenger-name
+{
+  grid-column: 1/2;
+  color:white;
+}
+.passenger-seat
+{
+  grid-column: 2/3;
+  color:white;
+}
+.passenger-insurance{
+  grid-column: 3/4;
+  color:white;
+}
+
+</style>
+</head>
+
+<body style="margin:0;">
+<header >
+    <div class="header">
+        <div class="title">
+            <a href="../index.php"><img class="resize" src="../images/odysseyair2.png" alt="Italian Trulli"></a>
+        </div>
+    </div>
+    
+    <div class=""nav-bar>
+        <ul>
+            <li><a href="../index.php" class="c">&#9992; Home</a></li>
+            <li class="b">&#10102; Flights</li>
+            <li class="b">&#10113; Who's going?</li>
+            <li class="b">&#10114; Seats</li>
+            <li class="b">&#10115; Essentials</li>
+            <li class="b">&#10116; Checkout</li>
+          </ul>
+    </div>
+    </header>

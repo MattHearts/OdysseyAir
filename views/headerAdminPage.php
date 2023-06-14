@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,7 +16,9 @@
                 <p>Manage my Booking</p>
             </div>
             <div class="info">
-                <a href="contact.asp">Newsletter</a>
+                <a onclick="gotoAdminPage()">Admin Menu</a> | 
+                <a onclick="confirmLogout()">Log out</a>
+                
             </div>
         </div>
         
@@ -28,3 +31,15 @@
               </ul>
         </div>
     </header>
+    <script>
+        function confirmLogout() {
+            var confirmed = window.confirm("Are you sure you want to logout?");
+            if (confirmed) {
+                window.location.href = "../controllers/logout.php";
+            }
+        }
+        function gotoAdminPage() {
+
+                window.location.href = "../controllers/admin-menu.php";
+        }
+    </script>

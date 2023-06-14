@@ -119,6 +119,9 @@ li a:hover {
   color:rgb(14, 14, 15);
 }
 
+a{
+  cursor: pointer;
+}
 .big-image-index{
   
       width: 100%;

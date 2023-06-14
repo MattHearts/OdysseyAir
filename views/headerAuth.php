@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,7 +16,8 @@
                 <p>Manage my Booking</p>
             </div>
             <div class="info">
-                <a href="contact.asp">Newsletter</a>
+                Welcome <?php echo $username;?> | 
+                <a onclick="confirmLogout()">Log out</a>
             </div>
         </div>
         
@@ -28,3 +30,11 @@
               </ul>
         </div>
     </header>
+    <script>
+        function confirmLogout() {
+            var confirmed = window.confirm("Are you sure you want to logout?");
+            if (confirmed) {
+                window.location.href = "../controllers/logout.php";
+            }
+        }
+    </script>

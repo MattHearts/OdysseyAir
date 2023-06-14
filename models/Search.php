@@ -31,6 +31,8 @@ class Search{
     public $pricePerPersonPlus2;
     public $depDatePlus3;
     public $pricePerPersonPlus3;
+    public $isFlight;
+    public $pricePerPersonNum;
 
 
 
@@ -79,7 +81,7 @@ class Search{
                 $_SESSION['pricePerPerson'] = $this->pricePerPerson;
                 $_SESSION['flightID'] = $this->flightID;
                 $this->search_close_flights();
-                echo "<script>window.location.href='search-results.php'</script>";
+                echo "<script>window.location.href='../controllers/search-results.php'</script>";
 
             } else {
                 $this->depAirport = "-";
@@ -100,8 +102,9 @@ class Search{
                 $_SESSION['pricePerPerson'] = $this->pricePerPerson;
                 $_SESSION['flightID'] = $this->flightID;
                 
+                
                 $this->search_close_flights();
-                echo "<script>window.location.href='search-results.php'</script>";
+                echo "<script>window.location.href='../controllers/search-results.php'</script>";
                 $_SESSION['errMessage'] = "Sorry, no available flights this day :(";
             }
 
