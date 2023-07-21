@@ -104,11 +104,12 @@
         }
 .passengers-box
 {
-background-color: #12bbc7b9;
+border-bottom:solid 2px #12bbc7;
 display: grid;
 grid-template-rows: 25px 25px;
 padding:15px;
 margin-bottom:20px;
+border-radius: 20px;
 }
 .label
 {
@@ -127,34 +128,98 @@ align-content: center;
 }
 .name-label{
 grid-column: 1/2;
-color:white;
+color:#12bbc7;
 
 }
 .seat-label
 {
   grid-column: 2/3;
-  color:white;
+  color:#12bbc7;
 }
 .incurance-label
 {
   grid-column: 3/4;
-  color:white;
+  color:#12bbc7;
 }
 .passenger-name
 {
   grid-column: 1/2;
-  color:white;
+  color:#12bbc7;
 }
 .passenger-seat
 {
   grid-column: 2/3;
-  color:white;
+  color:#12bbc7;
 }
 .passenger-insurance{
   grid-column: 3/4;
-  color:white;
+  color:#12bbc7;
 }
 
+.flights-box{
+  display: grid;
+  grid-template-columns: 1fr 0.3fr 1fr;
+  column-gap: 10px;
+
+}
+.flight-one-box{
+  display: grid;
+  grid-template-columns: 1fr ;
+  column-gap: 10px;
+
+}
+.flight-box{
+  grid-column: 1/2;
+  border: 2px solid #9ABC66;
+  padding:15px;
+  color:#88B04B;
+  text-align: center;
+  border-radius: 15px;
+
+}
+.return-flight-box{
+  grid-column: 3/4;
+  border: 2px solid #9ABC66;
+  padding:15px;
+  color:#88B04B;
+  text-align: center;
+  border-radius: 15px;
+  
+}
+.airplane{
+  grid-column: 2/3;
+  font-size: 75px;
+  align-self: center;
+  justify-self: center;
+  color:#12bbc7;
+}
+.check-in-button{
+  align-self: center;
+  justify-content: center;
+  width: 250px;
+  background-color: #12bbc7;
+  border-style: solid;
+  border-color: white;
+  border-width: 2px;
+  color: white;
+  padding: 12px 20px;
+  margin: 8px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition: all 0.5s;
+  cursor: pointer;
+  border-radius:50px;
+  align-self:center;
+}
+
+.check-in-button:hover {
+  background-color: white;
+  color: #12bbc7;
+  border-radius:5px;
+  border:2px solid #12bbc7;
+}
 </style>
 </head>
 

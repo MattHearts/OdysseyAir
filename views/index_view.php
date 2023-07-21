@@ -33,20 +33,27 @@
             <div class="search-form-dep-date">
                 <label for="date">Departure</label>
                 <br>
-                <input type="date" class="form-control" id="date1" placeholder="date" name="date1">
+                <input type="date" class="form-control" id="date1" placeholder="date" name="date1" min="<?php echo date('Y-m-d'); ?>">
             </div>
 
             <div class="search-form-ret-date">
                 <label for="date">Return</label>
                 <br>
-                <input type="date" class="form-control" id="date2" placeholder="date" name="date2">
+                <input type="date" class="form-control" id="date2" placeholder="date" name="date2" min="<?php echo date('Y-m-d'); ?>">
             </div>
 
             <div class="find-flights">
                 <label for="button"><?php echo $searchErr;?></label>
                 <br>
                 <button type="submit" class="button"><span>Find Flights</span>
-            </div>            
+            </div>   
+            
+            <div class="search-form-trip-type">
+            <input type="radio" id="one-way" name="trip-type" value="one-way" checked>
+            <label for="one-way">One Way</label>
+            <input type="radio" id="return" name="trip-type" value="return">
+            <label for="return">Return</label>
+        </div>
         </form>
     </div>
     
@@ -54,4 +61,6 @@
         <label for="button"><?php echo $searchErr; ?></label>
     </div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="../js/indexScript.js"></script>   
 </html>

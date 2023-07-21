@@ -8,11 +8,16 @@ class Passengers{
     public $checkInRadio;
     public $howMany;
     public $err;
+    public $checkIn;
     public $checkInCost;
     public $passengerSeat=array();
+    public $passengerSeatR=array();
+    public $suitcaseNumber=array();
+    public $overallPriceV2;
 
     public $passengersErr;
     public $checkInErr;
+
 
     function validate_passengers(){
         $err=false;
@@ -39,6 +44,7 @@ class Passengers{
                 $_SESSION['passengerName'.$x]= $this->passengerName[$x];
                 $_SESSION['passengerSurname'.$x]=$this->passengerSurname[$x];
                 $_SESSION['passengerTitle'.$x]=$this->passengerTitle[$x];
+                $_SESSION['suitcaseNumber'.$x]=$this->suitcaseNumber[$x];
                 $_SESSION['checkIn']=$this->checkIn;
                 if($this->checkIn=="online")
                 {
@@ -49,7 +55,9 @@ class Passengers{
                 }
                 $_SESSION['checkInCost']=$this->checkInCost;
                 $_SESSION['x']=1;
+                $_SESSION['overallPriceV2']=$this->overallPriceV2;
 
+ 
                 echo "<script>window.location.href='pick-seats.php'</script>";
             }
         }

@@ -13,7 +13,7 @@
 
             <div class="single-form">
                 <label for="card-number">Number on Card</label>
-                <input type="text" class="form-control-card-number" id="card-number" placeholder="1111-2222-3333-4444" name="card-number">
+                <input type="text" class="form-control-card-number" id="card-number" placeholder="1111-2222-3333-4444" name="card-number" oninput="formatCardNumber(this)">
                 
             </div>
             
@@ -93,7 +93,7 @@
                 including the Dangerous Goods Policy and Summary of Key Terms. 
                 Please also make sure that everyone who’s travelling is aware of them too.</p>
 
-                <input type="checkbox" id="termsconditions" name="termsconditions" value="accepted">
+                <input type="checkbox" id="termsconditions" name="termsconditions" value="accepted" required>
                 <label for="termsconditions"><b> I've read the information above and accept the terms and conditions<b></label><br>
             </div>
 
@@ -102,9 +102,22 @@
 
     <div class="price-synopsis">
         <h2 class="h2m6">Total so far:</h2>
-        <h1 class="h1m">&euro; <?php echo $srch1->pricePerPerson*$srch1->whosGoing+$pass1->checkInCost;?></h1>
+        <h1 class="h1m" id="overallPrice">&euro; 0</h1>
         <button type="submit"  class="button-continue"><span><b>Pay Securely &rarr;</b></span></button><br><br>
         <div class="very-small-letters">By clicking continue, I agree to the website Terms of Use. Fares INCLUDE ALL taxes and charges, excluding optional extras.</div>
     </div>
     </form>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="../js/checkoutScript.js"></script>  
+<script>
+function updateTotalPrice() {
+    var overallPrice= <?php echo $_SESSION['overallPriceV3'];?>;
+   
+
+  document.getElementById("overallPrice").innerHTML = "&euro; " + overallPrice;
+}
+
+updateTotalPrice();
+
+</script>

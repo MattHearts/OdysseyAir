@@ -59,7 +59,7 @@ border-right:solid 1px ;
 
 .layout{
 display:grid;
-grid-template-columns: 1fr 3fr 1fr 1fr;
+grid-template-columns: 1fr 900px 1fr 1fr;
 }
 
 .forms{
@@ -110,6 +110,7 @@ background-color: rgb(235, 235, 235);
 border:1px solid lightgray;
 display:grid;
 grid-template-columns: 1fr 1fr;
+margin-bottom:30px;
 }
 .online
 {
@@ -142,10 +143,44 @@ margin:30px;
 background-color: white;
 border: solid lightgray 1px;
 display: grid;
-grid-template-columns: 1fr 1fr 1fr 1fr;
+grid-template-rows: 70px 1fr;
 gap: 5px;
 align-items: center;
 }
+.carriage-info{
+  grid-row: 1/2;
+  margin-top:10px;
+  margin-left:10px;
+  margin-right:10px;
+  background-color: rgb(235, 235, 235);
+  padding:5px;
+  display: grid;
+  grid-template-columns: 3fr 1.5fr;
+  gap: 5px;
+
+  }
+  .carriage-info-1
+  {
+    grid-column: 1/2;
+    align-self: center;
+    padding: 3px;
+  }
+  .carriage-info-2
+  {
+    grid-column: 2/3;
+    justify-self: end;
+    padding: 3px;
+  }
+  .carriage-action{
+    grid-row: 2/3;
+    margin:30px;
+
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 5px;
+    align-items: center;
+    }
 
   
   .minus-button,
@@ -165,6 +200,7 @@ align-items: center;
         font-size: 28px;
         transition-duration: 0.4s;
         justify-self: center;
+        
       
     
 
@@ -175,6 +211,7 @@ align-items: center;
   .plus-button:hover {
     background-color: #12bbc7;
     color: white;
+    cursor: pointer;
   }
 
   .carriage-icon {

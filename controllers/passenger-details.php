@@ -1,10 +1,19 @@
 <?php
 session_start();
-
+require "../models/Authentication.php";
+$auth1=new Authentication();
 
 $passengersErr="";
 $checkInErr="";
 $suitcaseNum=0;
+$token = isset($_COOKIE['auth_token']) ? $_COOKIE['auth_token'] : (isset($_SESSION['auth_token']) ? $_SESSION['auth_token'] : null);
+if ($auth1->isAuthenticated($token)) {
+
+
+}
+else {
+    echo "<script> window.location.href='../index.php'</script>";
+}
 
 if (isset($_SESSION['depAirport'])) {
     require "../models/Search.php";
@@ -22,6 +31,12 @@ else
 {
 echo "something went wrong";
 }
+if($_SESSION['flightType']=="return"){
+    $_SESSION['tripTypeNum']=2;
+}
+else{
+    $_SESSION['tripTypeNum']=1;
+}
 
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
@@ -38,6 +53,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
     $pass1->howMany=$srch1->whosGoing;
     
+    
     for($x=1;$x<=$srch1->whosGoing;$x++)
     {
 
@@ -45,8 +61,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $pass1->passengerSurname[$x]=$_POST['passenger-surname'.$x];
         $pass1->passengerTitle[$x]=$_POST['passenger-title'.$x];
 
-
+        $pass1->suitcaseNumber[$x] = $_POST['suitcase-number-input'][$x - 1];
     }
+    $pass1->overallPriceV2 = $_POST['total-price'];
+
     $pass1->validate_passengers();
     $passengersErr=$pass1->passengersErr;
     $checkInErr=$pass1->checkInErr;

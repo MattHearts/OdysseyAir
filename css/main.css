@@ -59,11 +59,13 @@ color: white;
 border-radius: 5px;
 align-self: center;
 transition-duration: 0.4s;
+background-color: #12bbc7;
 }
 
 .manage-box:hover{
 background-color: white;
 color: #12bbc7;
+cursor: pointer;
 }
 
 .info{
@@ -130,7 +132,7 @@ a{
       background-size: cover;
       grid-row:2/3;
       display: grid;
-      grid-template-rows:380px 150px 20px;
+      grid-template-rows:370px 160px 20px;
       grid-template-columns: 1fr 1200px 5fr;
      
 }
@@ -141,13 +143,15 @@ a{
   grid-column: 2/3;
   display: grid;
   grid-template-columns:30px 1fr 1fr 0.5fr 0.6fr 0.6fr 0.1fr 1fr   30px;
+  grid-template-rows: 110px 10px 40px;
   border-radius: 10px;
   
 }
 
 .search-form-dep-air{
   grid-column: 2/3;
-  align-self: center;
+  margin-top:auto;
+  grid-row: 1/2;
   
 }
 
@@ -170,7 +174,8 @@ a{
 
 .search-form-dest-air{
   grid-column: 3/4;
-  align-self: center;
+  margin-top:auto;
+  grid-row: 1/2;
 }
 
 .search-form-dest-air label{
@@ -195,8 +200,9 @@ a{
 
 .search-form-pass{
   grid-column: 4/5;
-  align-self: center;
+  margin-top:auto;
   justify-content: center;
+  grid-row: 1/2;
 
   
 }
@@ -217,8 +223,9 @@ a{
 
 .search-form-dep-date{
   grid-column: 5/6;
-  align-self: center;
+  margin-top:auto;
   justify-content: center;
+  grid-row: 1/2;
 
   
 }
@@ -242,8 +249,9 @@ a{
 
 .search-form-ret-date{
   grid-column: 6/7;
-  align-self: center;
+  margin-top:auto;
   justify-content: center;
+  grid-row: 1/2;
 
   
 }
@@ -256,7 +264,7 @@ a{
   border-radius: 50px;
   border: 2px solid white;
   transition: width 0.4s ease-in-out;
-  pointer-events:none;
+ 
 }
 .search-form-ret-date label{
   margin: 8px 25px;
@@ -280,14 +288,25 @@ a{
   border-radius:50px;
   align-self:center;
 }*/
+.search-form-trip-type{
+  grid-row: 3/4;
+  grid-column: 2/4;
+  margin-bottom:auto;
+  justify-content: center;
+  padding-left:15px;
+}
 
+.search-form-trip-type label{
+ 
+  color:white;
+}
 
 
 .find-flights{
   grid-column: 8/9;
-  align-self: center;
+  margin-top:auto;
   justify-content: center;
-  
+  grid-row: 1/2;
 }
 
 .find-flights label{

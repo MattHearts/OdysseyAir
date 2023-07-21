@@ -2,8 +2,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="../js/passengerDetailsScript.js"></script>
+
 <div class="layout">
 
         <div class="forms">
@@ -46,13 +45,27 @@
                     </div>
                     
                     <div class="carriage-box">
+                        <div class="carriage-info">
+                        <div class="carriage-info-1">
+                            <b>Add 22kg checked-in bags</b>
+                        </div>
+                        <div class="carriage-info-2">
+                            <b style="text-align:right;">EUR 20.00</b>
+                            <br>
+                            (one way)
+                        </div>
+                        </div>
+                        <div class="carriage-action"> 
                     <button class="minus-button" data-passenger="<?php echo $x;?>">-</button>
                     <div class="carriage-icon">
                   <span class="fa fa-suitcase" style="font-size: 48px; color: #12c779;"></span>
                     </div>
-                    <div class="number" id="passenger-number<?php echo $x;?>">0</div>
+                    <div class="number">
+                        <input type="hidden" name="suitcase-number-input[]" <?php if (isset($_SESSION['suitcaseNum'.$x])){echo "value='".$_SESSION['suitcaseNum'.$x]."'";} else {echo "value='0'";}?> id="suitcase-number-input-<?php echo $x; ?>">
+                        <span id="suitcase-number<?php echo $x; ?>"><?php if (isset($_SESSION['suitcaseNum'.$x])){echo $_SESSION['suitcaseNum'.$x];} else {echo 0;}?></span>
+                    </div>
                     <button class="plus-button" data-passenger="<?php echo $x;?>">+</button>
-                        
+                     </div>
                     </div>
                 
             </div>
@@ -67,21 +80,21 @@
             <div class="check-in">
                 <div class="online">
                 <div class="radio">
-                <input type="radio" id="online" name="check-in" value="online">
+                <input type="radio" id="online" name="check-in" value="online" onclick="updateTotalPrice(0)">
                 </div>
                 <div class="radio-text">
-                    <h3>Online check-in</h3>
-                   <label for="online">Enter your passport details online then print your own boarding pass or send it to your smartphone.FREE</label>
+                    <h3 style="margin-bottom:10px; margin-top:10px;">Online check-in</h3>
+                   <label for="online">Enter your passport details online then print your own boarding pass or send it to your smartphone. <b>FREE</b></label>
                 </div>
                 </div>
 
                 <div class="airport">
                     <div class="radio">
-                <input type="radio" id="airport" name="check-in" value="airport">
+                <input type="radio" id="airport" name="check-in" value="airport" onclick="updateTotalPrice(22)">
                     </div>
                     <div class="radio-text">
-                <h3>Airport check-in</h3>
-                   <label for="airport">Check-in and receive your boarding pass at the airport desk.Charges apply</label>
+                <h3 style="margin-bottom:10px; margin-top:10px;">Airport check-in</h3>
+                   <label for="airport">Check-in and receive your boarding pass at the airport desk.<b> Charges apply: 22 EUR</b></label>
                     </div>
                 </div>
             </div>
@@ -99,11 +112,40 @@
             
         
         </div>
-    <div class="price-synopsis">
-    <h2 class="h2m6">Total so far:</h2>
-    <h1 class="h1m">&euro; <?php echo $srch1->pricePerPerson*$srch1->whosGoing;?></h1>
-    <button type="submit" class="button-continue"><span><b>Continue</b></span></button><br><br>
-    <div class="very-small-letters">By clicking continue, I agree to the website Terms of Use. Fares INCLUDE ALL taxes and charges, excluding optional extras.</div>
-    </div>
-    </form>
+<div class="price-synopsis">
+  <h2 class="h2m6">Total so far:</h2>
+  <input type="hidden" name="total-price" id="hidden-total-price" value="0">
+  <h1 class="h1m">&euro; <span id="total-price">0</span></h1>
+  <button type="submit" class="button-continue" ><span><b>Continue</b></span></button><br><br>
+  <div class="very-small-letters">By clicking continue, I agree to the website Terms of Use. Fares INCLUDE ALL taxes and charges, excluding optional extras.</div>
 </div>
+</form>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../js/passengerDetailsScript.js"></script>
+<script>
+  var overallPrice = parseInt(<?php echo $_SESSION['overallPrice']; ?>);
+  var tripTypeNum = parseInt(<?php echo $_SESSION['tripTypeNum']; ?>);
+
+  function updateTotalPrice(checkInCharge) {
+    var totalSuitcases = 0;
+    $(".number span").each(function() {
+      totalSuitcases += parseInt($(this).text());
+    });
+
+    var suitcasePrice = 20;
+    var checkInPrice = checkInCharge || 0;
+
+    if (isNaN(checkInPrice)) {
+        checkInPrice = 0; // Set check-in price to 0 if it is NaN
+    }
+    
+    var totalPrice = (totalSuitcases * suitcasePrice) * tripTypeNum + overallPrice + checkInPrice;
+
+    $(".h1m span").text(totalPrice);
+    $("#hidden-total-price").val(totalPrice);
+  }
+
+  // Call the updateTotalPrice() function initially to set the total price
+  updateTotalPrice();
+</script>

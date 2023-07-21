@@ -3,6 +3,7 @@
 html, body {
     width: 100%;
     height: 100%;
+    
   }
   
   .grida {
@@ -123,13 +124,18 @@ html, body {
     display:grid;
     grid-template-rows: 20px 100px 540px;
   }
+  .flight-results-display-only-dep{
+    display:grid;
+    grid-template-rows: 20px 100px 540px;
+  }
   
   .flight-results-recap{
     grid-row: 2/3;
     border: solid 1px grey;
     display:grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    width:1300px;
+    min-width: 500px;
+    width: 1000px;
     align-self: center;
     justify-self: center;
     border-radius: 10px;
@@ -188,23 +194,38 @@ html, body {
     grid-template-columns: 1fr 1fr;
     column-gap: 5px;
     height:500px;
-    width:1700px;
+    width: max-content;
+    justify-self: center;
+  }
+  .flight-result-boxes-only-dep{
+    grid-row: 3/4;
+    margin:20px 20px;
+    display:grid;
+    grid-template-columns: 1fr;
+    column-gap: 5px;
+    height:250px;
+    width: max-content;
     justify-self: center;
   }
   .result-departure{
   grid-column: 1/2;
   border-right:solid 2px #12bbc7;
+  padding-right:20px;
   }
+  .result-departure-only{
+    grid-column: 1/2;
+    }
   .result-return{
   grid-column: 2/3;
   border-left:solid 2px #12bbc7;
+  padding-left:20px;
   }
-  .calendar{
+  .calendar, .calendar_r{
   height: 100px;
   width:1fr;
   border-bottom: solid #12bbc7 2px;
   border-radius: 20px;
-  margin-right:20px;
+  
   display:grid;
   grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   }
@@ -215,9 +236,11 @@ html, body {
     border: none ;
     border-left: solid 2px #12bbc7;
     cursor:pointer;
+    
   }
   .day0{
   border-bottom:3px solid #12bbc7;
+  
   }
   .day-2:hover,.day-1:hover,.day1:hover,.day2:hover{
   
@@ -251,8 +274,8 @@ html, body {
   text-align: center;
   margin:10px;
   color:#12c779;
-  
-  font-size:38px;
+  font-weight: 520;
+  font-size:30px;
   }
   
   .calendar-price2{
@@ -339,7 +362,8 @@ html, body {
   
   width:1fr;
   border: solid #12c779 2px;
-  margin-right:20px;
+  height: 70px;
+  
   
   display:grid;
   grid-template-columns: 1fr 1fr;
@@ -389,10 +413,12 @@ html, body {
   align-content: center;
   }
   .noFlightsBox{
+
   
   width:1fr;
   border: solid grey 2px;
   margin-right:20px;
+  height: 70px;
   
   display:grid;
   grid-template-columns: 8fr 1fr;
@@ -614,4 +640,52 @@ html, body {
     background-color: white;
     color:#12bbc7;
     border-radius:5px;
+  }
+
+  @media screen and (max-width: 1500px) {
+    .flight-result-boxes {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr;
+      row-gap: 15px;
+      height: 500px;
+      width: max-content;
+      justify-self: center;
+      border: none; 
+    }
+    .flight-result-boxes-only-dep {
+      display: grid;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr;
+      row-gap: 15px;
+      height: 250px;
+      width: max-content;
+      justify-self: center;
+      border: none; 
+    }
+    
+    .result-departure {
+      grid-row: 1/2;/* Update the order to 1 */
+      grid-column: 1/2;
+      
+      border-right: none;
+     
+    }
+    
+    .result-return {
+      grid-row: 2/3; /* Update the order to 2 */
+      grid-column: 1/2;
+      border-left: none;
+      margin-top: 20px;
+      border-top: solid 2px #12bbc7;
+    }
+
+    .flight-results-display{
+      display:grid;
+      grid-template-rows: 20px 100px 900px;
+    }
+    .flight-results-display-only-dep{
+      display:grid;
+      grid-template-rows: 20px 100px 540px;
+    }
   }

@@ -40,6 +40,7 @@ else{
 
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
+    $_SESSION['overallPriceV3'] = $_POST['total-price'];
     for($x=1;$x<=$srch1->whosGoing;$x++)
     {
     $_SESSION['insurance'.$x]= $_POST['insurance'.$x];
@@ -47,9 +48,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $_SESSION['insuranceCost'.$x]=0;
         $_SESSION['insurance'.$x]="no_insurance";
     }
-    else{
+    else if($_POST['insurance'.$x]=="goInsurance"){
         $_SESSION['insuranceCost'.$x]=8;
         $_SESSION['insurance'.$x]="go_insurance";
+    }
+    else if($_POST['insurance'.$x]=="returnInsurance"){
+        $_SESSION['insuranceCost'.$x]=8;
+        $_SESSION['insurance'.$x]="return_insurance";
+    }
+    else{
+        $_SESSION['insuranceCost'.$x]=13;
+        $_SESSION['insurance'.$x]="all_trip_insurance";
     }
     
     }

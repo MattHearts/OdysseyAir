@@ -62,7 +62,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         for($x=1;$x<=$srch1->whosGoing;$x++)
         {
         $ticket1->register_passengers($x);
+        if($_SESSION['flightType']=="return")
+        $ticket1->register_passengersR($x);
         }
+        //session_destroy();
+        //session_start();
         echo "<script>window.location.href='../controllers/success.php'</script>";
         
     }

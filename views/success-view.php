@@ -8,9 +8,51 @@
       </div>
         <h1 class="h1s">Success</h1> 
         <p class="ps">Your holiday is booked;<br/> Check in now!</p>
-        <button class="checkin-button" id="checkin-button" onclick="gotoCheckIn(<?php echo $ticket1->bookingID;?>); ">Check In</button>
+        <form id="checkin-form" method="post">
+        <input type="hidden" name="bookingID" value="<?php echo $ticket1->bookingID; ?>">
+        <button class="check-in-button" id="checkin-button" onclick="submitForm()">Check In</button>
+</form>
       </div>
-</div>
+      </div>
+
+      <h2>Flights:</h2>
+    
+            
+           <?php 
+           if($_SESSION['flightType']=="return")
+           { ?>
+           <div class="flights-box">
+           <div class="flight-box">
+            <h2><?php  echo $ticket1->depAirport." to ".$ticket1->destAirport;?></h2>
+            <div class="smaller-letters"><b>Departs:</b> <?php echo $ticket1->depDate." at ".substr($ticket1->depTime, 0, 5);?><br>
+            <b>Arrives:</b> <?php echo $ticket1->depDate." at ".substr($ticket1->arrTime, 0, 5);?><br>
+            <b>Flight duration:</b> <?php echo $ticket1->durationTimeMin;?> mins direct<br></div>
+           </div>
+           <div class="airplane">
+           &
+           </div>
+           <div class="return-flight-box">
+            <h2><?php  echo $ticket1->depAirportR." to ".$ticket1->destAirportR;?></h2>
+            <div class="smaller-letters"><b>Departs:</b> <?php echo $ticket1->depDateR." at ". substr($ticket1->depTimeR, 0, 5);?><br>
+            <b>Arrives:</b> <?php echo $ticket1->depDateR." at ".substr($ticket1->arrTimeR, 0, 5);?><br>
+            <b>Flight duration:</b> <?php echo $ticket1->durationTimeMinR;?> mins direct<br></div>
+           </div>
+           </div>
+
+        
+    <?php } 
+    
+    else
+    { ?>
+           <div class="flight-one-box">
+           <div class="flight-box">
+            <h2><?php  echo $ticket1->depAirport." to ".$ticket1->destAirport;?></h2>
+            <div class="smaller-letters"><b>Departs:</b> <?php echo $ticket1->depDate." at ".substr($ticket1->depTime, 0, 5);?><br>
+            <b>Arrives:</b> <?php echo $ticket1->depDate." at ".substr($ticket1->arrTime, 0, 5);?><br>
+            <b>Flight duration:</b> <?php echo $ticket1->durationTimeMin;?> mins direct<br></div>
+           </div>
+    </div>
+      <?php } ?>
 
 <h2>Passengers:</h2>
     
@@ -48,7 +90,7 @@
            <?php
             echo $ticket1->passengerInsuranceList[$x];
            ?>
-           </b>
+      
            </div>
            </div>
 
