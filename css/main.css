@@ -134,7 +134,7 @@ a{
       display: grid;
       grid-template-rows:370px 160px 20px;
       grid-template-columns: 1fr 1200px 5fr;
-     
+      
 }
 
 .search-flights-form{
@@ -412,3 +412,62 @@ grid-column: 1/2;
 
 
 
+/* Update #departure-airport-list and #destination-airport-list with .suggestion-box */
+.suggestion-box {
+  float: left;
+  list-style: none;
+  margin-top: -3px;
+  padding: 0;
+  width: 190px;
+  position: absolute;
+  max-height: 150px; /* Set a maximum height for the suggestion list */
+  overflow-y: auto; /* Enable vertical scrolling when the list exceeds the maximum height */
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  z-index: 2; 
+
+}
+
+/* Update #country-list li with .suggestion */
+.suggestion {
+  padding: 10px;
+  background: #f0f0f0;
+  border-bottom: #bbb9b9 1px solid;
+}
+
+/* Update #country-list li:hover with .suggestion:hover */
+.suggestion:hover {
+  background: #ece3d2;
+  cursor: pointer;
+}
+
+
+
+
+.countries-container {
+  display: grid; /* Use grid layout for the container */
+  grid-template-columns: repeat(3, 1fr); /* Create three equal-width columns */
+  gap: 20px; /* Add a gap between columns */
+  margin: 20px;
+  margin-top: 50px;
+}
+
+.country-column {
+  text-align: center;
+}
+
+.country-column img {
+  width: 100%;
+  height: auto;
+  max-height: 200px; /* Limit the height of the image to 200px (adjust as needed) */
+}
+
+.country-column h3 {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.country-column p {
+  margin-top: 5px;
+  font-size: 14px;
+}

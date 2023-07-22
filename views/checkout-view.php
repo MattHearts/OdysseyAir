@@ -13,14 +13,14 @@
 
             <div class="single-form">
                 <label for="card-number">Number on Card</label>
-                <input type="text" class="form-control-card-number" id="card-number" placeholder="1111-2222-3333-4444" name="card-number" oninput="formatCardNumber(this)">
+                <input type="text" required class="form-control-card-number" id="card-number" placeholder="1111-2222-3333-4444" name="card-number" oninput="formatCardNumber(this)">
                 
             </div>
             
 
             <div class="single-form">
                 <label for="card-name">Name on Card</label>
-                <input type="text" class="form-control-card-name" id="card-name" placeholder="MR POTATOMAN" name="card-name">
+                <input type="text" required class="form-control-card-name" id="card-name" placeholder="MR POTATOMAN" name="card-name">
                 
             </div>
            
@@ -65,7 +65,7 @@
         </div>
             <div class="single-form-cvv">
                 <label for="card-cvv">CVV</label>
-                <input type="text" class="form-control-card-cvv" id="card-cvv" placeholder="123" name="card-cvv">
+                <input type="text" required class="form-control-card-cvv" id="card-cvv" placeholder="123" name="card-cvv">
                 
             </div>
             

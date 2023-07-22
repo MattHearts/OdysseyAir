@@ -109,7 +109,7 @@ class Ticket{
     {
         $this->bookingID=$_SESSION["bookingID"];
         $this->flightID=$_SESSION["flightID"];
-        $this->flightIDR=$_SESSION["flightIDR"];
+        
         require "config.php";
 
 
@@ -139,6 +139,7 @@ class Ticket{
         }
 
         if($_SESSION['flightType']=="return"){
+        $this->flightIDR=$_SESSION["flightIDR"];
         $bookingquery = "SELECT * FROM flights WHERE flight_id='$this->flightIDR'";
         $result =$conn->query($bookingquery);
         if ($result->num_rows > 0) 

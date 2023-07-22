@@ -15,11 +15,11 @@ if (isset($_POST['manage-flights-button'])) {
 }
 
 if (isset($_POST['manage-airports-button'])) {
-    header("Location: manage-airports.php");
+    header("Location: ../views/manage-airports.php");
     exit();
 }
 if (isset($_POST['manage-accounts-button'])) {
-    header("Location: manage-accounts.php");
+    header("Location: ../views/manage-accounts.php");
     exit();
 }
 

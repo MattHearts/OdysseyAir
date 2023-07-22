@@ -12,9 +12,9 @@
             <div class="title">
                 <a href="index.php"><img class="resize" src="../images/odysseyair2.png" alt="Italian Trulli"></a>
             </div>
-            <div class="manage-box">
+            <button class="manage-box" onclick="window.location.href='../controllers/manage-booking-user.php';">
                 <p>Manage my Booking</p>
-            </div>
+            </button>
             <div class="info">
                 <a onclick="gotoAdminPage()">Admin Menu</a> | 
                 <a onclick="confirmLogout()">Log out</a>

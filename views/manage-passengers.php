@@ -12,10 +12,16 @@ $passengersList = $options->getPassengersList($flightID);
 <link rel="stylesheet" href="../css/admin.css?v=<?php echo time(); ?>">
 
 <div class="layout2">
+
     <div class="flight-list">
+
         <h2 style="text-align: center;">Flight List</h2>
+
         <div class="flight-list-container">
-            
+            <div>
+                <label for="search-input">Search:</label>
+                <input type="text" id="search-input" oninput="performSearch()">
+            </div>
                 <table>
                     <thead>
                         <tr>
@@ -26,6 +32,9 @@ $passengersList = $options->getPassengersList($flightID);
                             <th>Name</th>
                             <th>Surname</th>
                             <th>Seat</th>
+                            <th>Trip Type</th>
+                            <th>Is Checked in</th>
+                            <th></th>
 
                         </tr>
                     </thead>
@@ -40,6 +49,10 @@ $passengersList = $options->getPassengersList($flightID);
                             echo "<td>" . $passenger['name'] . "</td>";
                             echo "<td>" . $passenger['surname'] . "</td>";
                             echo "<td>" . $passenger['seat'] . "</td>";
+                            echo "<td>" . $passenger['trip_type'] . "</td>";
+                            echo "<td>" . $passenger['isChecked'] . "</td>";
+                             // Add the Document Info button
+                             echo "<td><button class='passengers-button' onclick='viewPassengerDoc(" . $passenger['passenger_id'] . ")' id='passenger-info-button'>Document Info</button></td>";
                             echo "</tr>";
                         }
                         ?>
@@ -49,7 +62,9 @@ $passengersList = $options->getPassengersList($flightID);
         </div>
     </div>
 </div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="../js/adminScript.js"></script>
+<script src="../js/adminCommonScript.js"></script>
 <?php
 include "../views/footer.html";
 ?>

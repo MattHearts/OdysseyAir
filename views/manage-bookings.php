@@ -29,6 +29,10 @@ if (isset($_GET['username'])) {
                         Date: <?php echo $booking['dep_date'];?><br>
                     </div>
                     <div class="booking-list-container">
+                    <div>
+                <label for="search-input">Search:</label>
+                <input type="text" id="search-input" oninput="performSearch()">
+            </div>
                         <table>
                             <thead>
                                 <tr>
@@ -75,3 +79,4 @@ if (isset($_GET['username'])) {
 ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="../js/adminBookingsScript.js"></script>
+<script src="../js/adminCommonScript.js"></script>

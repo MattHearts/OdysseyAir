@@ -16,7 +16,10 @@ $userList = $options->getUserList();
     
 
         <div class="flight-list-container">
-            
+        <div>
+                <label for="search-input">Search:</label>
+                <input type="text" id="search-input" oninput="performSearch()">
+            </div>
                 <table>
                     <thead>
                         <tr>
@@ -46,3 +49,4 @@ $userList = $options->getUserList();
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="../js/adminAccountsScript.js"></script>
+<script src="../js/adminCommonScript.js"></script>

@@ -161,7 +161,7 @@ class AdminOptions {
 
     public function getPassengersList($flightID) {
         require "config.php";
-        $sql = "SELECT passenger_id, booking_id, name, surname, title, seat FROM passengers WHERE flight_id='$flightID'";
+        $sql = "SELECT passenger_id, booking_id, name, surname, title, seat, trip_type, isChecked FROM passengers WHERE flight_id='$flightID'";
         $result = $conn->query($sql);
 
         $passengersList = array();
@@ -172,6 +172,29 @@ class AdminOptions {
 
         return $passengersList;
     }
+
+        // Function to fetch passenger document info based on the passengerID
+        public function getPassengerDocumentInfo($passengerID) {
+            require "config.php";
+    
+            // Escape the input to prevent SQL injection
+            $passengerID = mysqli_real_escape_string($conn, $passengerID);
+    
+            $sql = "SELECT * FROM passenger_info WHERE passenger_id='$passengerID'";
+            $result = $conn->query($sql);
+    
+    
+            // Fetch the document info from the result set
+            $passengerDocumentInfo = array();
+    
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $passengerDocumentInfo[] = $row;
+            }
+    
+    
+            return $passengerDocumentInfo;
+        }
     
     // Add other methods for managing flights, such as updating flight details, etc.
     public function getCancelledFlightsList() {

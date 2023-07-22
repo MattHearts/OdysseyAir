@@ -24,22 +24,8 @@ class Passengers{
 
         for($x=1;$x<=$this->howMany;$x++){
             
-            if (empty($this->passengerName[$x])||empty($this->passengerSurname[$x])||empty($this->passengerTitle[$x])) 
-            {
-                
-                $this->passengersErr="All fields are required";
-                $err=true;
-                
-            }
-            if ($this->checkInRadio==false) 
-            {
-                
-                $err=true;
-                $this->checkInErr="This field is required";
-                
-            }
             
-            if ($err==false){
+            
     
                 $_SESSION['passengerName'.$x]= $this->passengerName[$x];
                 $_SESSION['passengerSurname'.$x]=$this->passengerSurname[$x];
@@ -59,16 +45,18 @@ class Passengers{
 
  
                 echo "<script>window.location.href='pick-seats.php'</script>";
-            }
-        }
+            
+        
 
 
     }
+}
 
     function array_has_dupes($array) {
         return count($array) !== count(array_unique($array));
      }
 
     
+
 }
 ?>

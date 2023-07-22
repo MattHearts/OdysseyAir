@@ -9,29 +9,38 @@ $auth1=new Authentication();
 $token = isset($_COOKIE['auth_token']) ? $_COOKIE['auth_token'] : (isset($_SESSION['auth_token']) ? $_SESSION['auth_token'] : null);
 
 $searchErr = "";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
     require "../models/Search.php";
     $srch1 = new Search();
-    $srch1->searchDepAirport = $_POST['departure-airport'];
-    $srch1->searchDestAirport = $_POST['destination-airport'];
-    $srch1->searchDepDate = $_POST['date1'];
-    $srch1->whosGoing = $_POST['how-many'];
-    if (isset($_POST['trip-type']) && $_POST['trip-type'] === 'one-way') {
+    // Check if the required parameters are set in $_GET before using them
+    if (isset($_GET['departure-airport'])) {
+        $srch1->searchDepAirport = $_GET['departure-airport'];
+    }
+    if (isset($_GET['destination-airport'])) {
+        $srch1->searchDestAirport = $_GET['destination-airport'];
+    }
+    if (isset($_GET['date1'])) {
+        $srch1->searchDepDate = $_GET['date1'];
+    }
+    if (isset($_GET['how-many'])) {
+        $srch1->whosGoing = $_GET['how-many'];
+    }
+    if (isset($_GET['trip-type']) && $_GET['trip-type'] === 'one-way') {
         $_SESSION['flightType']="one-way";
     $srch1->validate_search();
     if (empty($srch1->searchErr)){
-        echo "<script>window.location.href='../controllers/search-results.php'</script>";
+        header("Location: ../controllers/search-results.php?" . http_build_query($_GET));
         exit();
     }
     }
-    else if (isset($_POST['trip-type']) && $_POST['trip-type'] === 'return') {
+    else if (isset($_GET['trip-type']) && $_GET['trip-type'] === 'return') {
 
         $_SESSION['flightType']="return";
-        $srch1->searchDepDateR = $_POST['date2'];
+        $srch1->searchDepDateR = $_GET['date2'];
         $srch1->validate_search();
         $srch1->validate_return_search();
         if (empty($srch1->searchErr)){
-            echo "<script>window.location.href='../controllers/search-results.php'</script>";
+            header("Location: ../controllers/search-results.php?" . http_build_query($_GET));
             exit();
         }
 

@@ -66,6 +66,9 @@ class Search{
     {
         if (empty($this->searchDepAirport) || empty($this->searchDestAirport) || empty($this->searchDepDate)) {
             $this->searchErr = "All fields are required";
+        }
+        else if ($this->searchDepAirport == $this->searchDestAirport) {
+            $this->searchErr = "Cannot do that smartass";
         } else {
             $this->search_flights();
         }

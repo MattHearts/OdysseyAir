@@ -20,7 +20,10 @@ $options = new AdminOptions();
                 <!-- Options will be populated dynamically using AJAX -->
             </select>
         <div class="flight-list-container">
-            
+        <div>
+                <label for="search-input">Search:</label>
+                <input type="text" id="search-input" oninput="performSearch()">
+            </div>
                 <table>
                     <thead>
                         <tr>
@@ -74,3 +77,4 @@ $options = new AdminOptions();
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="../js/adminAirportsScript.js"></script>
+<script src="../js/adminCommonScript.js"></script>

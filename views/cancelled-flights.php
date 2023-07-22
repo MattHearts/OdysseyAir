@@ -14,7 +14,10 @@ $flightList = $options->getCancelledFlightsList();
     <div class="flight-list">
         <h2 style="text-align: center; color: red;">Cancelled Flights List</h2>
         <div class="flight-list-container">
-            
+        <div>
+                <label for="search-input">Search:</label>
+                <input type="text" id="search-input" oninput="performSearch()">
+            </div>
                 <table>
                     <thead>
                         <tr>
@@ -58,6 +61,7 @@ $flightList = $options->getCancelledFlightsList();
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="../js/adminScript.js"></script>
+<script src="../js/adminCommonScript.js"></script>
 
 <?php
 include "../views/footer.html";

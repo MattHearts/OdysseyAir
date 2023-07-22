@@ -295,6 +295,12 @@
       window.location.href = 'manage-passengers.php?flightID=' + flightID;
     }
 
+    function viewPassengerDoc(passengerID) {
+        // Code to handle viewing passengers
+        // Redirect to the passengers page for the selected flight
+        window.location.href = 'manage-document.php?passengerID=' + passengerID;
+      }
+
     function viewCancelledPassengers(flightID) {
         // Code to handle viewing passengers
         // Redirect to the passengers page for the selected flight
@@ -304,6 +310,8 @@
     function gotoCancelledFlights(){
         window.location.href = 'cancelled-flights.php';
     }
+
+
 
 
   

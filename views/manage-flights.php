@@ -19,7 +19,10 @@ $flightList = $options->getFlightList();
         <button class="add-flights-button" id="add-flights-button">Add Flights</button>
         <button class="view-cancelled-flights-button" id="view-cancelled-flights-button" onclick='gotoCancelledFlights()'>View Cancelled Flights</button>
         <div class="flight-list-container">
-            
+        <div>
+                <label for="search-input">Search:</label>
+                <input type="text" id="search-input" oninput="performSearch()">
+            </div>
                 <table>
                     <thead>
                         <tr>
@@ -167,6 +170,7 @@ $flightList = $options->getFlightList();
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="../js/adminScript.js"></script>
+<script src="../js/adminCommonScript.js"></script>
 
 
 

@@ -25,7 +25,7 @@
                     <form method= "post" >
                     <div class="single-form">
 
-                        <select name="passenger-title<?php echo $x;?>" id="passenger-title">
+                        <select name="passenger-title<?php echo $x;?>" id="passenger-title" required>
                         <option value="Mr">Mr</option>
                         <option value="Mrs">Mrs</option>
                         <option value="Miss">Miss</option>
@@ -35,10 +35,10 @@
 
                     </div>
                     <div class="single-form">
-                        <input type="text" class="form-control-name" id="passenger-name" placeholder="First Name" name="passenger-name<?php echo $x;?>">
+                        <input type="text" required class="form-control-name" id="passenger-name" placeholder="First Name" name="passenger-name<?php echo $x;?>">
                     </div>
                     <div class="single-form">
-                        <input type="text" class="form-control-surname" id="passenger-surname" placeholder="Last Name" name="passenger-surname<?php echo $x;?>">
+                        <input type="text" required class="form-control-surname" id="passenger-surname" placeholder="Last Name" name="passenger-surname<?php echo $x;?>">
                     </div>
                 
 
@@ -80,7 +80,7 @@
             <div class="check-in">
                 <div class="online">
                 <div class="radio">
-                <input type="radio" id="online" name="check-in" value="online" onclick="updateTotalPrice(0)">
+                <input  required type="radio" id="online" name="check-in" value="online" onclick="updateTotalPrice(0)">
                 </div>
                 <div class="radio-text">
                     <h3 style="margin-bottom:10px; margin-top:10px;">Online check-in</h3>
@@ -90,7 +90,7 @@
 
                 <div class="airport">
                     <div class="radio">
-                <input type="radio" id="airport" name="check-in" value="airport" onclick="updateTotalPrice(22)">
+                <input required type="radio" id="airport" name="check-in" value="airport" onclick="updateTotalPrice(22)">
                     </div>
                     <div class="radio-text">
                 <h3 style="margin-bottom:10px; margin-top:10px;">Airport check-in</h3>
