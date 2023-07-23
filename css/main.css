@@ -471,3 +471,30 @@ grid-column: 1/2;
   margin-top: 5px;
   font-size: 14px;
 }
+
+.layout-article {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.article {
+  margin-bottom: 40px;
+}
+.article img {
+  display: block;
+  max-width: 100%;
+  max-height: 300px; /* Added maximum height */
+  width: auto; /* Ensures aspect ratio is maintained */
+  height: auto; /* Ensures aspect ratio is maintained */
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  
+}
+
+.layout-terms {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+

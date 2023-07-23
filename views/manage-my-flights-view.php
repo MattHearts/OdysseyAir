@@ -56,7 +56,8 @@ Select your flight to check-in or view your boarding passes
         <div class="label">
           <p class="name-label">Name:</p>
           <p class="seat-label">Seat:</p>
-          <p class="incurance-label">Insurance:</p>
+          <p class="baggage-label">Baggage Number:</p>
+          <p class="insurance-label">Insurance:</p>
         </div>
         <div class="passenger-info">
           <div class="passenger-name">
@@ -72,6 +73,13 @@ Select your flight to check-in or view your boarding passes
             <b>
               <?php
               echo $check1->passengerSeatList[$x]." ";
+              ?>
+            </b>
+          </div>
+          <div class="passenger-baggage">
+            <b>
+              <?php
+              echo $check1->passengerBaggageList[$x];
               ?>
             </b>
           </div>

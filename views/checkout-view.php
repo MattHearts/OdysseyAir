@@ -89,8 +89,7 @@
                 <h2>Please accept our Terms & Conditions</h2>
             </div>
             <div class="synopsis-main">
-            <p>Please tick the box to confirm you’ve read the information above and accept our Terms & Conditions, 
-                including the Dangerous Goods Policy and Summary of Key Terms. 
+            <p>Please tick the box to confirm you’ve read the information above and accept our <a href="../controllers/terms-and-conditions.php"  target="_blank" rel="noopener noreferrer">Terms & Conditions</a>. 
                 Please also make sure that everyone who’s travelling is aware of them too.</p>
 
                 <input type="checkbox" id="termsconditions" name="termsconditions" value="accepted" required>

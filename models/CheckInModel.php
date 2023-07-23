@@ -14,6 +14,7 @@ class CheckIn{
   public $passengerTitleList=array();
   public $passengerSeatList=array();
   public $passengerInsuranceList=array();
+  public $passengerBaggageList=array();
 
   public $documentType=array();
   public $documentNum=array();
@@ -219,6 +220,34 @@ function upload_info(){
         echo "<script>window.location.href='../controllers/checkInSuccess.php'</script>";
     }
 }
+function isCheckinOnline() {
+    require "config.php";
+    $flag = true; // Initialize a flag variable to true
+
+    // Get the flight code and booking code from the session
+    $flightCode = $_SESSION['flightIDCheckin'];
+    $bookingID = $_SESSION['bookingIDCheckin'];
+
+    $query = "SELECT * FROM passengers WHERE flight_id='$flightCode' AND booking_id='$bookingID'";
+    $result = $conn->query($query);
+
+    if ($result->num_rows > 0) {
+        $x=0;
+        while ($row = $result->fetch_assoc()) {
+            // Check if the isChecked column is false for any passenger
+            if ($row['checkin_type'] === 'airport') {
+                $flag = false; // Set the flag to false if any passenger has isChecked set to false
+                break; // Exit the loop, as we have found a passenger with isChecked false
+            }
+            $x++;
+        }
+        
+    } else {
+        $flag = false; // Set the flag to false if no passengers found for the given flight and booking
+    }
+
+    return $flag; // Return the flag value (true if all passengers have isChecked true, false otherwise)
+}
 
 function isChecked() {
     require "config.php";
@@ -318,6 +347,7 @@ function find_bookings($username){
         $this->passengerTitleList = array();
         $this->passengerSeatList = array();
         $this->passengerInsuranceList = array();
+        $this->passengerBaggageList = array();
     
         $firstFlightID = $this->flightIDList[0];
     
@@ -332,6 +362,7 @@ function find_bookings($username){
                 $this->passengerTitleList[$x] = $row['title'];
                 $this->passengerSeatList[$x] = $row['seat'];
                 $this->passengerInsuranceList[$x] = $row['insurance'];
+                $this->passengerBaggageList[$x]= $row['baggage_num'];
     
                 $x++;
             }

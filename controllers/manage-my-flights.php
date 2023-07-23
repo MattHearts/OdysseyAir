@@ -26,11 +26,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['flightCode'])&&isset($_POST['flightType'])) {
         $_SESSION['flightIDCheckin']=$_POST['flightCode'];
         $_SESSION['flightTypeCheckin']=$_POST['flightType'];
-        if($check1->isChecked())
-        {echo "<script>window.location.href='checkInSuccess.php'</script>";}
+        if($check1->isCheckinOnline())
+        {        
+            if($check1->isChecked())
+            {echo "<script>window.location.href='checkInSuccess.php'</script>";}
+            else{
+            $_SESSION['checkInInfo']="working";
+            echo "<script>window.location.href='checkin.php'</script>";
+            }
+        }
         else{
-        $_SESSION['checkInInfo']="working";
-        echo "<script>window.location.href='checkin.php'</script>";
+            echo "<script>window.location.href='checkInAirport.php'</script>";
+
         }
     }
     else

@@ -108,6 +108,12 @@ html, body {
       
   
     }
+    .layout-passengers{
+      display: grid;
+      grid-template-columns: 1fr 1300px 1fr;
+      
+  
+    }
     .options-box{
       grid-column: 2/3;
   
@@ -165,7 +171,7 @@ html, body {
   }
   .booking-list-container {
     padding-top:5px;
-  height: 100px; /* Adjust the height as per your requirements */
+  height: 200px; /* Adjust the height as per your requirements */
   overflow: auto;
         
         margin-bottom: 20px;
@@ -205,7 +211,20 @@ html, body {
   
   
   }
-  
+  .booking-box{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .go-flights
+  {
+    grid-column: 1/2;
+    
+  }
+  .return-flights
+  {
+    grid-column: 2/3;
+    text-align:right;
+  }
   .add-flights-button {
     
     margin-top: 10px;

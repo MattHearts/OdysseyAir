@@ -10,7 +10,15 @@
         <p class="ps">Your holiday is booked;<br/> Check in now!</p>
         <form id="checkin-form" method="post">
         <input type="hidden" name="bookingID" value="<?php echo $ticket1->bookingID; ?>">
+        <?php
+        if($_SESSION['checkIn']=='online'){?>
         <button class="check-in-button" id="checkin-button" onclick="submitForm()">Check In</button>
+        <?php }?>
+
+</form>
+<form action="../controllers/success.php" method="GET">
+  <input type="hidden" name="generatePDF" value="true">
+  <button type="submit">Download PDF Receipt</button>
 </form>
       </div>
       </div>
@@ -64,7 +72,8 @@
             <div class="label">
             <p class="name-label">Name:</p>
             <p class="seat-label">Seat:</p>
-            <p class="incurance-label">Insurance:</p>
+            <p class="baggage-label">Baggage Number:</p>
+            <p class="insurance-label">Insurance:</p>
            </div>
            <div class="passenger-info">
            <div class="passenger-name">
@@ -84,6 +93,13 @@
             echo $ticket1->passengerSeatList[$x]." ";
            ?>
            </b>
+           </div>
+           <div class="passenger-baggage">
+            <b>
+           <?php
+            echo $ticket1->passengerBaggageList[$x];
+           ?>
+      
            </div>
            <div class="passenger-insurance">
             <b>

@@ -11,7 +11,7 @@ $passengersList = $options->getCancelledPassengersList($flightID);
 
 <link rel="stylesheet" href="../css/admin.css?v=<?php echo time(); ?>">
 
-<div class="layout2">
+<div class="layout-passengers">
     <div class="flight-list">
         <h2 style="text-align: center;">Flight List</h2>
         <div class="flight-list-container">
@@ -26,8 +26,11 @@ $passengersList = $options->getCancelledPassengersList($flightID);
                             <th>Name</th>
                             <th>Surname</th>
                             <th>Seat</th>
+                            <th>Insurance</th>
+                            <th>Baggage Number</th>
                             <th>Trip Type</th>
-                            <th>Is Checked in</th>
+                            <th>Check in Method</th>
+                            <th>Is Checked Ιn</th>
                             <th></th>
 
                         </tr>
@@ -43,7 +46,10 @@ $passengersList = $options->getCancelledPassengersList($flightID);
                             echo "<td>" . $passenger['name'] . "</td>";
                             echo "<td>" . $passenger['surname'] . "</td>";
                             echo "<td>" . $passenger['seat'] . "</td>";
+                            echo "<td>" . $passenger['insurance'] . "</td>";
+                            echo "<td>" . $passenger['baggage_num'] . "</td>";
                             echo "<td>" . $passenger['trip_type'] . "</td>";
+                            echo "<td>" . $passenger['checkin_type'] . "</td>";
                             echo "<td>" . $passenger['isChecked'] . "</td>";
                              // Add the Document Info button
                              echo "<td><button class='passengers-button' onclick='viewPassengerDoc(" . $passenger['passenger_id'] . ")' id='passenger-info-button'>Document Info</button></td>";

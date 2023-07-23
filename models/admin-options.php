@@ -161,7 +161,7 @@ class AdminOptions {
 
     public function getPassengersList($flightID) {
         require "config.php";
-        $sql = "SELECT passenger_id, booking_id, name, surname, title, seat, trip_type, isChecked FROM passengers WHERE flight_id='$flightID'";
+        $sql = "SELECT * FROM passengers WHERE flight_id='$flightID'";
         $result = $conn->query($sql);
 
         $passengersList = array();
@@ -308,74 +308,97 @@ class AdminOptions {
 
         return $userList;
     }
-
-public function getAccountBookings($username) {
-    require "config.php";
-
-    // Retrieve the bookings for the specified username
-    $bookingQuery = "SELECT * FROM bookings WHERE username = '$username'";
-    $bookingResult = $conn->query($bookingQuery);
-
-    $bookings = array();
-
-    // Process each booking
-    while ($bookingRow = mysqli_fetch_assoc($bookingResult)) {
-        $bookingID = $bookingRow['booking_id'];
-
-        // Retrieve flight information based on the booking ID
-        $flightQuery = "SELECT * FROM flights WHERE flight_id = (SELECT flight_id FROM passengers WHERE booking_id = $bookingID LIMIT 1)";
-        $flightResult = $conn->query($flightQuery);
-        $flightRow = mysqli_fetch_assoc($flightResult);
-
-        $booking = array();
-        $booking['booking_id'] = $bookingRow['booking_id'];
-
-        if ($flightRow) {
-            // Flight found
-            $booking['flight_id'] = $flightRow['flight_id'];
-            $booking['dep_airport'] = $flightRow['dep_airport'];
-            $booking['dest_airport'] = $flightRow['dest_airport'];
-            $booking['dep_date'] = $flightRow['dep_date'];
-            $booking['dep_time'] = $flightRow['dep_time'];
-            $booking['arr_time'] = $flightRow['arr_time'];
-            $booking['duration_min'] = $flightRow['duration_min'];
-            $booking['price'] = $flightRow['price'];
-
-            // Retrieve passenger information based on the booking ID and flight ID
-            $passengerQuery = "SELECT * FROM passengers WHERE booking_id = $bookingID AND flight_id = " . $flightRow['flight_id'];
-            $passengerResult = $conn->query($passengerQuery);
-
-            $passengers = array();
-            while ($passengerRow = mysqli_fetch_assoc($passengerResult)) {
-                $passenger = array();
-                $passenger['passenger_id'] = $passengerRow['passenger_id'];
-                $passenger['title'] = $passengerRow['title'];
-                $passenger['name'] = $passengerRow['name'];
-                $passenger['surname'] = $passengerRow['surname'];
-                $passenger['seat'] = $passengerRow['seat'];
-                $passengers[] = $passenger;
+    public function getAccountBookings($username) {
+        require "config.php";
+    
+        $bookingQuery = "SELECT * FROM bookings WHERE username = '$username'";
+        $bookingResult = $conn->query($bookingQuery);
+    
+        $bookings = array();
+        $booking = array(); 
+    
+        while ($bookingRow = mysqli_fetch_assoc($bookingResult)) {
+            $bookingID = $bookingRow['booking_id'];
+    
+            // Retrieve 'go' flights based on booking ID
+            $flightQueryGo = "SELECT * FROM flights 
+                              WHERE flight_id IN (
+                                  SELECT flight_id FROM passengers WHERE booking_id = $bookingID AND trip_type = 'go'
+                              )";
+            $flightResultGo = $conn->query($flightQueryGo);
+    
+            // Process 'go' flights for this booking
+            while ($flightRowGo = mysqli_fetch_assoc($flightResultGo)) {
+               
+                $booking['booking_id'] = $bookingRow['booking_id'];
+                $booking['book_date'] = $bookingRow['date'];
+                $booking['book_time'] = $bookingRow['time'];
+                $booking['book_price'] = $bookingRow['price'];
+    
+                $booking['flight_id'] = $flightRowGo['flight_id'];
+                $booking['dep_airport'] = $flightRowGo['dep_airport'];
+                $booking['dest_airport'] = $flightRowGo['dest_airport'];
+                $booking['dep_date'] = $flightRowGo['dep_date'];
+                $booking['dep_time'] = $flightRowGo['dep_time'];
+                $booking['arr_time'] = $flightRowGo['arr_time'];
+                $booking['duration_min'] = $flightRowGo['duration_min'];
+                $booking['price'] = $flightRowGo['price'];
+    
+                // Retrieve passenger information for 'go' flight
+                $passengerQueryGo = "SELECT * FROM passengers 
+                                     WHERE booking_id = $bookingID 
+                                     AND flight_id = " . $flightRowGo['flight_id'] . "
+                                     AND trip_type = 'go'";
+                $passengerResultGo = $conn->query($passengerQueryGo);
+    
+                $passengersGo = array();
+                while ($passengerRowGo = mysqli_fetch_assoc($passengerResultGo)) {
+                    $passenger = array();
+                    $passenger['passenger_id'] = $passengerRowGo['passenger_id'];
+                    $passenger['title'] = $passengerRowGo['title'];
+                    $passenger['name'] = $passengerRowGo['name'];
+                    $passenger['surname'] = $passengerRowGo['surname'];
+                    $passenger['seat'] = $passengerRowGo['seat'];
+                    $passenger['trip_type'] = $passengerRowGo['trip_type'];
+                    $passengersGo[] = $passenger;
+                }
+    
+                $booking['passengers'] = $passengersGo;
+                $booking['isReturn'] = false; // Set 'isReturn' flag to false for 'go' flights
+                $bookings[] = $booking;
             }
-
-            $booking['passengers'] = $passengers;
-        } else {
-            // No flight found
-            $booking['flight_id'] = 'N/A';
-            $booking['dep_airport'] = 'N/A';
-            $booking['dest_airport'] = 'N/A';
-            $booking['dep_date'] = 'N/A';
-            $booking['dep_time'] = 'N/A';
-            $booking['arr_time'] = 'N/A';
-            $booking['duration_min'] = 'N/A';
-            $booking['price'] = 'N/A';
-            $booking['passengers'] = array();
+    
+            // Retrieve 'return' flights based on booking ID
+            $flightQueryReturn = "SELECT * FROM flights 
+                                  WHERE flight_id IN (
+                                      SELECT flight_id FROM passengers WHERE booking_id = $bookingID AND trip_type = 'return'
+                                  )";
+            $flightResultReturn = $conn->query($flightQueryReturn);
+    
+            // If there are any 'return' flights, process them for this booking
+            if (mysqli_num_rows($flightResultReturn) > 0) {
+                while ($flightRowReturn = mysqli_fetch_assoc($flightResultReturn)) {
+                    $booking['flight_idR'] = $flightRowReturn['flight_id'];
+                    $booking['dep_airportR'] = $flightRowReturn['dep_airport'];
+                    $booking['dest_airportR'] = $flightRowReturn['dest_airport'];
+                    $booking['dep_dateR'] = $flightRowReturn['dep_date'];
+                    $booking['dep_timeR'] = $flightRowReturn['dep_time'];
+                    $booking['arr_timeR'] = $flightRowReturn['arr_time'];
+                    $booking['duration_minR'] = $flightRowReturn['duration_min'];
+                    $booking['priceR'] = $flightRowReturn['price'];
+    
+                    // No passengers for 'return' flight, so set passengers as an empty array
+                    $booking['passengersR'] = array();
+                    $booking['isReturn'] = true; // Set 'isReturn' flag to true for 'return' flights
+                    $bookings[] = $booking;
+                }
+            } else {
+                $booking['isReturn'] = false; // Set 'isReturn' flag to false when there are no 'return' flights
+            }
         }
-
-        $bookings[] = $booking;
+    
+        return $bookings;
     }
-
-    return $bookings;
-}
-
     
 }
 

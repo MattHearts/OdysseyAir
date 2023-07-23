@@ -23,11 +23,31 @@ if (isset($_GET['username'])) {
                 <h2 style="text-align: center;"><?php echo $selectedUsername; ?> Bookings</h2>
                 <?php foreach ($bookingsList as $booking) {?>
                     <div class="booking-box">
-                        Flight ID: <?php echo $booking['flight_id'];?><br>
-                        Departure Airport: <?php echo $booking['dep_airport'];?><br>
-                        Arrival Airport: <?php echo $booking['dest_airport'];?><br>
-                        Date: <?php echo $booking['dep_date'];?><br>
+                Booking ID: <?php echo $booking['booking_id'];?><br>
+                Date Booked: <?php echo $booking['book_date'];?><br>
+                Time Booked: <?php echo $booking['book_time'];?><br>
+                Price: <?php echo $booking['book_price'];?><br>
+                ______________________________________________________
+                <br>
+                <div class="go-flights">
+                    Flight ID: <?php echo $booking['flight_id'];?><br>
+                    Departure Airport: <?php echo $booking['dep_airport'];?><br>
+                    Arrival Airport: <?php echo $booking['dest_airport'];?><br>
+                    Departure Date: <?php echo $booking['dep_date'];?><br>
+                    Departure Time: <?php echo substr($booking['dep_time'], 0, 5);?><br>
+                    Arrival Time: <?php echo substr($booking['arr_time'], 0, 5);?><br>
+                </div>
+                <?php if ($booking['isReturn'] == true) {?>
+                    <div class="return-flights">
+                        Flight ID (Return): <?php echo $booking['flight_idR'];?><br>
+                        Departure Airport (Return): <?php echo $booking['dep_airportR'];?><br>
+                        Arrival Airport (Return): <?php echo $booking['dest_airportR'];?><br>
+                        Departure Date (Return): <?php echo $booking['dep_dateR'];?><br>
+                        Departure Time (Return): <?php echo substr($booking['dep_timeR'], 0, 5);?><br>
+                        Arrival Time (Return): <?php echo substr($booking['arr_timeR'], 0, 5);?><br>
                     </div>
+                <?php }?>
+            </div>
                     <div class="booking-list-container">
                     <div>
                 <label for="search-input">Search:</label>
