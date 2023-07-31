@@ -10,13 +10,13 @@ class ReceiptPDFGenerator extends FPDF
         // Background color
         $this->SetTextColor(0, 0, 0);
         // Logo
-        $this->Image('../images/odysseyair2.png', 10, 6, 60);
+        $this->Image('../images/odysseyair3.png', 10, 6, 60);
         // Arial bold 15
         $this->SetFont('Arial', 'B', 15);
         // Move to the right
         $this->Cell(80);
         // Title
-        $this->Cell(0, 10, 'Booking Receipt', 1, 1, 'C'); // The last parameter 'true' will fill the cell with the specified color
+        $this->Cell(0, 10, 'Booking Receipt', 1, 1, 'C');
         // Line break
         $this->Ln(20);
     }
@@ -81,6 +81,10 @@ class Ticket{
     public $checkinType;
     public $baggageNum;
 
+    public $bookingDate;
+    public $bookingTime;
+    public $bookingPrice;
+
     // Method to generate the receipt in PDF
     public function generateReceiptPDF()
     {
@@ -95,6 +99,16 @@ class Ticket{
 
 
            // Add content to the PDF (customize as needed based on your data)
+           $pdf->SetFont('Arial', '', 18);
+           $pdf->Cell(0, 10, 'Booking Information ', 0, 1);
+           $pdf->SetFont('Arial', '', 12);
+           $pdf->Cell(0, 5, 'Booking ID: ' . $this->bookingID, 0, 1);
+           $pdf->Cell(0, 5, 'Date Booked: ' . $this->bookingDate, 0, 1);
+           $pdf->Cell(0, 5, 'Time Booked: ' . $this->bookingTime, 0, 1);
+           $pdf->Cell(0, 5, 'Email: ' . $this->username, 0, 1);
+           $pdf->Cell(0, 5, "________________________________________________________________", 0, 1);
+           $pdf->Ln(7);
+
            $pdf->SetFont('Arial', '', 16);
            $pdf->Cell(0, 10, 'Going ', 0, 1);
            $pdf->SetFont('Arial', '', 12);
@@ -202,9 +216,10 @@ class Ticket{
     }
 
     $pdf->SetFont('Arial', '', 20);
-    $pdf->Cell(0, 30, 'Total Price: ' . $_SESSION['overallPriceV3'] . ' '.EURO, 0, 1);
+    $pdf->Cell(0, 30, 'Total Price: ' . $this->bookingPrice . ' '.EURO, 0, 1);
     
     
+
     
             // Output the PDF as a downloadable file
             $pdf->Output('booking_receipt.pdf', 'D');
@@ -297,6 +312,30 @@ class Ticket{
         $this->flightID=$_SESSION["flightID"];
         
         require "config.php";
+
+        $bookingquery = "SELECT * FROM bookings WHERE booking_id='$this->bookingID'";
+        $result =$conn->query($bookingquery);
+        
+        if ($result->num_rows > 0) 
+        {   
+            
+        while ($row = $result->fetch_assoc()) {
+        
+
+            $this->username=$row['username'];
+            $this->bookingDate=$row['date'];
+            $this->bookingTime=$row['time'];
+            $this->bookingPrice=$row['price'];
+
+        
+        }
+        
+    } 
+        else
+        {
+            
+            $this->message = "Something went Wrong";
+        }
 
 
         $bookingquery = "SELECT * FROM flights WHERE flight_id='$this->flightID'";

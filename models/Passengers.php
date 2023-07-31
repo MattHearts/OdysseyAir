@@ -15,6 +15,10 @@ class Passengers{
     public $suitcaseNumber=array();
     public $overallPriceV2;
 
+    public $passengerInsuranceCost=array();
+    public $passengerInsurance=array();
+
+
     public $passengersErr;
     public $checkInErr;
 

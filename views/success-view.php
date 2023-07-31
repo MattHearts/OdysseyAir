@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="../css/success.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="../js/adminSuccessScript.js"></script>
 <div class="layout">
     <div class="content">

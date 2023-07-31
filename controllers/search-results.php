@@ -199,6 +199,6 @@ include "../views/search-results-view.php";
 include "../views/footer.html";
 
 } else {
-    echo "Something went wrong :(";
+    echo "<script>window.location.href='../index.php'</script>";
 }
 ?>

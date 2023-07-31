@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="../css/incurance-details.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="layout">
     <div class="forms">
         <h1>Travel Incurance</h1>
@@ -9,11 +12,11 @@
                 </div>
                 
                     <?php
-                        for($x=1;$x<=$_SESSION['whosGoing'];$x++){
+                        for($x=1;$x<=$srch1->whosGoing;$x++){
                     ?>
                     <div class="form-row">
                     <div class="form-label">
-                        <label for="insurance<?php echo $x;?>"><h2><?php echo $_SESSION['passengerName'.$x]." ".$_SESSION['passengerSurname'.$x]; ?></h2></label>
+                        <label for="insurance<?php echo $x;?>"><h2><?php echo $pass1->passengerName[$x]." ".$pass1->passengerName[$x]; ?></h2></label>
                     </div>
                     <div class="form-select">
                         <select name="insurance<?php echo $x;?>" id="insurance<?php echo $x;?>" onchange="updateTotalPrice()">

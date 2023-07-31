@@ -81,6 +81,7 @@
               $pdf->Cell(0, 5, 'Passenger Name: ' . $passengerInfo['title'] . ' ' . $passengerInfo['name'] . ' ' . $passengerInfo['surname'], 0, 1);
               $pdf->Cell(0, 5, 'Seat: ' . $passengerInfo['seat'], 0, 1);
               $pdf->Cell(0, 5, 'Insurance: ' . $passengerInfo['insurance'], 0, 1);
+              
   
               // Add more details here based on your data
   

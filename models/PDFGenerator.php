@@ -11,7 +11,7 @@
           // Background color
           $this->SetTextColor(0, 0, 0);
           // Logo
-          $this->Image('../images/odysseyair2.png', 10, 6, 60);
+          $this->Image('../images/odysseyair3.png', 10, 6, 60);
           // Arial bold 15
           $this->SetFont('Arial', 'B', 15);
           // Move to the right
@@ -81,6 +81,9 @@
               $pdf->Cell(0, 5, 'Passenger Name: ' . $passengerInfo['title'] . ' ' . $passengerInfo['name'] . ' ' . $passengerInfo['surname'], 0, 1);
               $pdf->Cell(0, 5, 'Seat: ' . $passengerInfo['seat'], 0, 1);
               $pdf->Cell(0, 5, 'Insurance: ' . $passengerInfo['insurance'], 0, 1);
+              $pdf->Cell(0, 5, 'Check In Bags: ' . $passengerInfo['baggage_num'], 0, 1);
+              $pdf->Ln(10);
+              $pdf->Image('../images/odyssey_airline-pass.png', 10, 105, 190);
   
               // Add more details here based on your data
   

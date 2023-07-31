@@ -1,4 +1,6 @@
 
+<link rel="stylesheet" href="../css/pick-seats.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="layout">
   
   <div class="forms">
@@ -8,12 +10,12 @@
     
 	
 	<?php
-    for($x=1;$x<=$_SESSION['whosGoing'];$x++){
+    for($x=1;$x<=$srch1->whosGoing;$x++){
     ?>
     
 	<div class="form-box">
         <div class="form-label">
-      <label for="seat<?php echo $x;?>"><h2><?php echo $_SESSION['passengerName'.$x]." ".$_SESSION['passengerSurname'.$x]; ?></h2></label>
+      <label for="seat<?php echo $x;?>"><h2><?php echo $pass1->passengerName[$x]." ".$pass1->passengerSurname[$x]; ?></h2></label>
         </div>
         <div class="form-select">
      <select name="seat<?php echo $x;?>" id="seat">
@@ -33,11 +35,11 @@
     ?>
     <h3>Return Flight</h3>
     <?php
-    for($x=1;$x<=$_SESSION['whosGoing'];$x++){
+    for($x=1;$x<=$srch1->whosGoing;$x++){
     ?>
     	<div class="form-box">
         <div class="form-label">
-      <label for="seat<?php echo $x;?>"><h2><?php echo $_SESSION['passengerName'.$x]." ".$_SESSION['passengerSurname'.$x]; ?></h2></label>
+      <label for="seat<?php echo $x;?>"><h2><?php echo $pass1->passengerName[$x]." ".$pass1->passengerSurname[$x]; ?></h2></label>
         </div>
         <div class="form-select">
      <select name="seatR<?php echo $x;?>" id="seatR">

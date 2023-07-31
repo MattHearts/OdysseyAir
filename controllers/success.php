@@ -14,12 +14,18 @@ if (isset($_SESSION['bookingID'])) {
     if (isset($_GET['generatePDF']) && $_GET['generatePDF'] === 'true') {
         // Generate and serve the PDF receipt
         $ticket1->generateReceiptPDF();
+        
     } else {
         // Display the success page
         include "../views/header7.html";
         include "../views/success-view.php";
         include "../views/footer.html";
     }
+    $_SESSION['isPurchaceComplete']=true;
+
+}
+else{
+    echo "<script>window.location.href='manage-my-flights.php'</script>";
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {

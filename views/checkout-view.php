@@ -1,6 +1,47 @@
+<link rel="stylesheet" href="../css/checkout.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="layout">
-    <div class="forms">
+<div class="forms">
         <h1>Checkout</h1>
+        <h2>Booking Information</h2>
+    <div class="form-box-info">
+    <h2>Outbound Flight Information</h2>
+    Departure Airport: <?php echo $srch1->depAirport ; ?><br>
+    Destination Airport: <?php echo $srch1->destAirport; ?><br>
+    Departure Date: <?php echo $srch1->depDate; ?><br>
+    Departure Time: <?php echo $srch1->depTime; ?><br>
+    Arrival Time: <?php echo $srch1->arrTime; ?><br>
+    Flight Duration: <?php echo $srch1->durationMin; ?> minutes<br>
+    Price: <?php echo $srch1->pricePerPerson.' &euro; x '.$srch1->whosGoing.' = '.($srch1->pricePerPerson*$srch1->whosGoing).' &euro;'; ?><br>
+
+    <?php if (isset($_SESSION['depAirportR'])): ?>
+        <h2>Return Flight Information</h2>
+        Departure Airport: <?php echo $srch1->depAirportR ; ?><br>
+    Destination Airport: <?php echo $srch1->destAirportR; ?><br>
+    Departure Date: <?php echo $srch1->depDateR; ?><br>
+    Departure Time: <?php echo $srch1->depTimeR; ?><br>
+    Arrival Time: <?php echo $srch1->arrTimeR; ?><br>
+    Flight Duration: <?php echo $srch1->durationMinR; ?> minutes<br>
+    Price: <?php echo $srch1->pricePerPersonR.' &euro; x '.$srch1->whosGoing.' = '.($srch1->pricePerPersonR*$srch1->whosGoing).' &euro;'; ?><br>
+    <?php endif; ?>
+
+    <h2>Passenger Information</h2>
+    <?php for ($x = 1; $x <= $srch1->whosGoing; $x++): ?>
+        <h3>Passenger <?php echo $x; ?></h3>
+        Title: <?php echo $pass1->passengerTitle[$x]; ?><br>
+        Name: <?php echo $pass1->passengerName[$x]; ?><br>
+        Surname: <?php echo $pass1->passengerSurname[$x]; ?><br>
+        Seat: <?php echo $pass1->passengerSeat[$x]; ?><br>
+        Insurance: <?php echo $pass1->passengerInsurance[$x].' = '.$pass1->passengerInsuranceCost[$x].' &euro;'; ?><br>
+        Baggage: <?php echo $pass1->suitcaseNumber[$x].' x 22 &euro; = '.(22*$pass1->suitcaseNumber[$x]).' &euro;'; ?><br>
+    <?php endfor; ?>
+
+    <h2>Additional Information</h2>
+    Check-In: <?php echo $pass1->checkIn; ?><br>
+    Check-In Cost: <?php echo $pass1->checkInCost; ?>
+</div>
+    
         <h2>Pay for your booking</h2>
     <div class="form-box">
         

@@ -6,9 +6,13 @@ $numErr="";
 $nameErr="";
 $CVVErr="";
 
-if (isset($_SESSION['depAirport'])) {
+
+
+if (isset($_SESSION['overallPriceV3'])&&$_SESSION['isPurchaceComplete']==false) {
+
     require "../models/Search.php";
     $srch1 = new Search();
+    $srch1->whosGoing = $_SESSION['whosGoing'];
     $srch1->depAirport = $_SESSION['depAirport'];
     $srch1->destAirport = $_SESSION['destAirport'];
     $srch1->depDate = $_SESSION['depDate'];
@@ -16,14 +20,17 @@ if (isset($_SESSION['depAirport'])) {
     $srch1->arrTime = $_SESSION['arrTime'];
     $srch1->durationMin = $_SESSION['durationMin'];
     $srch1->pricePerPerson = $_SESSION['pricePerPerson'];
-    $srch1->whosGoing = $_SESSION['whosGoing'];
-}
-else
-{
-echo "<script>window.location.href='../index.php'</script>";
-}
+    
+    if (isset($_SESSION['depAirportR'])) {
+        $srch1->depAirportR = $_SESSION['depAirportR'];
+        $srch1->destAirportR = $_SESSION['destAirportR'];
+        $srch1->depDateR = $_SESSION['depDateR'];
+        $srch1->depTimeR = $_SESSION['depTimeR'];
+        $srch1->arrTimeR = $_SESSION['arrTimeR'];
+        $srch1->durationMinR = $_SESSION['durationMinR'];
+        $srch1->pricePerPersonR = $_SESSION['pricePerPersonR'];
+    }
 
-if (isset($_SESSION['checkIn'])) {
     require "../models/Passengers.php";
     $pass1=new Passengers();
     for($x=1;$x<=$srch1->whosGoing;$x++)
@@ -32,11 +39,16 @@ if (isset($_SESSION['checkIn'])) {
         $pass1->passengerName[$x]= $_SESSION['passengerName'.$x];
         $pass1->passengerSurname[$x]=$_SESSION['passengerSurname'.$x];
         $pass1->passengerTitle[$x]=$_SESSION['passengerTitle'.$x];
+        $pass1->passengerSeat[$x]=$_SESSION['passengerSeat'.$x];
+        $pass1->passengerInsurance[$x]=$_SESSION['insurance'.$x];
+        $pass1->passengerInsuranceCost[$x]=$_SESSION['insuranceCost'.$x];
+        $pass1->suitcaseNumber[$x]=$_SESSION['suitcaseNumber'.$x];
 
 
     }
     $pass1->checkIn=$_SESSION['checkIn'];
     $pass1->checkInCost=$_SESSION['checkInCost'];
+
 }
 else{
     echo "<script>window.location.href='../index.php'</script>";
@@ -67,6 +79,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         }
         //session_destroy();
         //session_start();
+        
         echo "<script>window.location.href='../controllers/success.php'</script>";
         
     }

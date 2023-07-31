@@ -3,23 +3,19 @@ session_start();
 
 
 if (isset($_SESSION['depAirport'])) {
-    require "../models/Search.php";
-    $srch1 = new Search();
-    $srch1->depAirport = $_SESSION['depAirport'];
-    $srch1->destAirport = $_SESSION['destAirport'];
-    $srch1->depDate = $_SESSION['depDate'];
-    $srch1->depTime = $_SESSION['depTime'];
-    $srch1->arrTime = $_SESSION['arrTime'];
-    $srch1->durationMin = $_SESSION['durationMin'];
-    $srch1->pricePerPerson = $_SESSION['pricePerPerson'];
-    $srch1->whosGoing = $_SESSION['whosGoing'];
+
 }
 else
 {
 echo "<script>window.location.href='../index.php'</script>";
 }
 
-if (isset($_SESSION['checkIn'])) {
+$x=1;
+if (isset($_SESSION['passengerSeat'.$x])&&$_SESSION['isPurchaceComplete']==false) {
+    require "../models/Search.php";
+    $srch1 = new Search();
+
+    $srch1->whosGoing = $_SESSION['whosGoing'];
     require "../models/Passengers.php";
     $pass1=new Passengers();
     for($x=1;$x<=$srch1->whosGoing;$x++)
@@ -33,6 +29,8 @@ if (isset($_SESSION['checkIn'])) {
     }
     $pass1->checkIn=$_SESSION['checkIn'];
     $pass1->checkInCost=$_SESSION['checkInCost'];
+    
+
 }
 else{
     echo "<script>window.location.href='../index.php'</script>";

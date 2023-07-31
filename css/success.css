@@ -1,0 +1,226 @@
+.header{
+    height: 240;
+    width: auto;
+    background: #12bbc7;
+    display: grid;
+    grid-template-columns: 50px 280px 2.5fr 250px 100px;
+    grid-template-rows:10px 80px 40px 10px;
+
+
+}
+
+.resize {
+  
+    width:280px;
+    height:120px;
+  
+}
+.title
+{
+    grid-column: 2/3;
+    grid-row: 2/4;
+    
+}
+ul {
+list-style-type: none;
+margin: 0;
+padding: 0;
+overflow: hidden;
+background-color: rgb(35, 35, 39);
+}
+
+li{
+float:left;
+}
+.b{
+display: block;
+color: white;
+text-align: center;
+padding: 14px 16px;
+text-decoration: none;
+float:left;
+
+}
+
+li a {
+display: block;
+color: white;
+text-align: center;
+padding: 14px 16px;
+text-decoration: none;
+border-right:solid 1px ;
+}
+
+li a:hover {
+background-color: white;
+color:rgb(14, 14, 15);
+border-right:solid 1px ;
+}
+
+.layout{
+display:grid;
+grid-template-columns: 1fr 5fr 1fr;
+}
+.content{
+grid-column: 2/3;
+}
+
+i {
+color: #9ABC66;
+font-size: 100px;
+line-height: 200px;
+margin-left:-15px;
+}
+.card {
+background: white;
+padding: 60px;
+border-radius: 4px;
+box-shadow: 0 2px 3px #C8D0D8;
+display: inline-block;
+margin: 0 auto;
+}
+.success-box{
+text-align: center;
+padding: 40px 0;
+background: #EBF0F5;
+}
+.h1s {
+  color: #88B04B;
+
+  font-weight: 900;
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+.ps {
+  color: #404F5E;
+
+  font-size:20px;
+  margin: 0;
+}
+.passengers-box
+{
+border-bottom:solid 2px #12bbc7;
+display: grid;
+grid-template-rows: 25px 25px;
+padding:15px;
+margin-bottom:20px;
+border-radius: 20px;
+}
+.label
+{
+grid-row: 1/2;
+display: grid;
+grid-template-columns: 2fr 1fr 1fr 1fr;
+align-content: center;
+}
+.passenger-info
+{
+grid-row: 2/3;
+display: grid;
+grid-template-columns: 2fr 1fr 1fr 1fr;
+margin-bottom: 0px;
+align-content: center;
+}
+.name-label{
+grid-column: 1/2;
+color:#12bbc7;
+
+}
+.seat-label
+{
+grid-column: 2/3;
+color:#12bbc7;
+}
+.insurance-label
+{
+grid-column: 4/5;
+color:#12bbc7;
+}
+.baggage-label
+{
+grid-column: 3/4;
+color:#12bbc7;
+}
+.passenger-name
+{
+grid-column: 1/2;
+color:#12bbc7;
+}
+.passenger-seat
+{
+grid-column: 2/3;
+color:#12bbc7;
+}
+.passenger-baggage{
+grid-column: 3/4;
+color:#12bbc7;
+}
+.passenger-insurance{
+grid-column: 4/5;
+color:#12bbc7;
+}
+
+.flights-box{
+display: grid;
+grid-template-columns: 1fr 0.3fr 1fr;
+column-gap: 10px;
+
+}
+.flight-one-box{
+display: grid;
+grid-template-columns: 1fr ;
+column-gap: 10px;
+
+}
+.flight-box{
+grid-column: 1/2;
+border: 2px solid #9ABC66;
+padding:15px;
+color:#88B04B;
+text-align: center;
+border-radius: 15px;
+
+}
+.return-flight-box{
+grid-column: 3/4;
+border: 2px solid #9ABC66;
+padding:15px;
+color:#88B04B;
+text-align: center;
+border-radius: 15px;
+
+}
+.airplane{
+grid-column: 2/3;
+font-size: 75px;
+align-self: center;
+justify-self: center;
+color:#12bbc7;
+}
+.check-in-button{
+align-self: center;
+justify-content: center;
+width: 250px;
+background-color: #12bbc7;
+border-style: solid;
+border-color: white;
+border-width: 2px;
+color: white;
+padding: 12px 20px;
+margin: 8px 12px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+transition: all 0.5s;
+cursor: pointer;
+border-radius:50px;
+align-self:center;
+}
+
+.check-in-button:hover {
+background-color: white;
+color: #12bbc7;
+border-radius:5px;
+border:2px solid #12bbc7;
+}
