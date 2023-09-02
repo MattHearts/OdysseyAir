@@ -1,6 +1,6 @@
 <?php
 
-//σύνδεση στην βάση δεδομένων
+// Connects with Database
 
 $host = "localhost";
 $user_name = "root";

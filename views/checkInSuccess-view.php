@@ -5,13 +5,14 @@
 
 <div class="layout">
 
-        <div class="forms">
-            <h1>You have checked in!</h1>
-            Download your boarding passes:<br>
-            <?php foreach ($passengerInfo as $passenger) { ?>
-            <a href="../controllers/generateBoardingPass.php?bookingID=<?php echo $check1->bookingIDCheck; ?>&flightID=<?php echo $check1->flightIDCheck; ?>&passengerID=<?php echo $passenger['passenger_id']; ?>">
-            &#9992; <?php echo $passenger['name']." ".$passenger['surname'] ; ?><br>
-        
-        <?php } ?>
-        </div>
+    <div class="forms">
+        <h1 style="color:#12bbc7;">You have checked in!</h1>
+        Download your boarding passes:<br>
+        <?php foreach ($passengerInfo as $passenger) { ?>
+            <a href="../controllers/generateBoardingPass.php?bookingID=<?php echo $check1->bookingIDCheck; ?>
+            &flightID=<?php echo $check1->flightIDCheck; ?>&passengerID=<?php echo $passenger['passenger_id']; ?>">
+                &#9992; <?php echo $passenger['name'] . " " . $passenger['surname']; ?><br>
+
+            <?php } ?>
+    </div>
 </div>

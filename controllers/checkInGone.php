@@ -11,12 +11,13 @@ $token = isset($_COOKIE['auth_token']) ? $_COOKIE['auth_token'] : (isset($_SESSI
 // Checks if user is authenticated
 if ($auth1->isAuthenticated($token)) {
     $username = $_SESSION['username'];
+    
 } else {
     echo "<script> window.location.href='../index.php'</script>";
 }
 if (isset($_SESSION['flightIDCheckin'])) {
     include "../views/headerAuth.php";
-    include "../views/checkInAirport-view.php";
+    include "../views/checkInGone-view.php";
     include "../views/footer.html";
 } else {
     echo "<script> window.location.href='../index.php'</script>";

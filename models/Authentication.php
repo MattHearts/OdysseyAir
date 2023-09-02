@@ -1,28 +1,46 @@
 <?php
-//class for ticket search
-class Authentication{
-function isAuthenticated($token) {
-    require "config.php"; // Include your database configuration file
-    
-    if(isset($_SESSION['username'])){
-    // Retrieve the stored token for the user from the database
-    $username = $_SESSION['username']; // Assuming you have the username stored in the session
-    $query = "SELECT token FROM user WHERE username = '$username'";
-    $result = $conn->query($query);
+class Authentication
+{
+    function isAuthenticated($token)
+    {
+        require "config.php"; 
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $storedToken = $row['token'];
+        if (isset($_SESSION['username'])) {
+            // Retrieves the stored token for the user from the database
+            $username = $_SESSION['username']; 
+            $query = "SELECT token FROM user WHERE username = ?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("s", $username);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
-        // Compare the retrieved token with the provided token
-        return ($token === $storedToken);
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $storedToken = $row['token'];
+
+                // Compares the retrieved token with the provided token
+                return ($token === $storedToken);
+            }
+
+            return false; // User not found
+        } else {
+            return false;
+        }
     }
 
-    return false; // User not found or token retrieval failed
+    // Checks if user is admin based on the type field
+    public function isAdmin($username) {
+        require "config.php"; 
+        $query = "SELECT type FROM user WHERE username = ?";
+        
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $username);
+        
+        $stmt->execute();
+        $stmt->bind_result($type);
+        $stmt->fetch();
+        $stmt->close();
+        
+        return $type === 2;
     }
-else {
-    return false; 
 }
-}
-}
-?>

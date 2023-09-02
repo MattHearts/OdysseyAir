@@ -1,13 +1,26 @@
 <?php
-
-class AdminOptions {
-
-
-
-
-    public function getFlightList() {
+class AdminOptions
+{
+    // Gets the list of active flights
+    public function getFlightList()
+    {
         require "config.php";
-        $sql = "SELECT flight_id, dep_airport, dest_airport, dep_date, dep_time, arr_time, duration_min, price FROM flights";
+        $sql = "SELECT flight_id, dep_airport, dest_airport, dep_date, dep_time, arr_time, duration_min, price FROM flights WHERE status = 'active'";
+        $result = $conn->query($sql);
+
+        $flightList = array();
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $flightList[] = $row;
+        }
+
+        return $flightList;
+    }
+    // Gets the list of completed flights
+    public function getCompletedFlightList()
+    {
+        require "config.php";
+        $sql = "SELECT flight_id, dep_airport, dest_airport, dep_date, dep_time, arr_time, duration_min, price FROM flights WHERE status = 'completed'";
         $result = $conn->query($sql);
 
         $flightList = array();
@@ -19,150 +32,107 @@ class AdminOptions {
         return $flightList;
     }
 
-    public function addFlight($departureAirport, $destinationAirport, $date, $departureTime, $arrivalTime, $duration, $price, $repeatWeeks) {
+    // Adds a new flight with optional repeated flights
+    public function addFlight($departureAirport, $destinationAirport, $date, $departureTime, $arrivalTime, $duration, $price, $repeatWeeks)
+    {
         require "config.php";
-    
-        // Insert the initial flight
+
         $sql = "INSERT INTO flights (dep_airport, dest_airport, dep_date, dep_time, arr_time, duration_min, price) 
-                VALUES ('$departureAirport', '$destinationAirport', '$date', '$departureTime', '$arrivalTime', '$duration', '$price')";
-    
-        // Execute the SQL query
-        $result = $conn->query($sql);
-    
-        // Check if the insertion was successful
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssssi", $departureAirport, $destinationAirport, $date, $departureTime, $arrivalTime, $duration, $price);
+        $result = $stmt->execute();
         if ($result) {
             echo "Flight added successfully!";
         } else {
             echo "Failed to add the flight. Please try again.";
         }
-    
-        // Get the last inserted flight ID
-        $flightID = $conn->insert_id;
-    
-        // Repeat the flight for the specified number of weeks
+
+        $flightID = $stmt->insert_id;
+
+        // Repeats the flight for the specified number of weeks
         for ($week = 1; $week < $repeatWeeks; $week++) {
             $departureDate = date('Y-m-d', strtotime($date . ' + ' . ($week * 7) . ' days'));
-            $arrivalDate = date('Y-m-d', strtotime($departureDate . ' + ' . $duration . ' minutes'));
-    
-            // Insert the repeated flight
+            //$arrivalDate = date('Y-m-d', strtotime($departureDate . ' + ' . $duration . ' minutes'));
+
             $sql = "INSERT INTO flights (dep_airport, dest_airport, dep_date, dep_time, arr_time, duration_min, price) 
-                    VALUES ('$departureAirport', '$destinationAirport', '$departureDate', '$departureTime', '$arrivalTime', '$duration', '$price')";
-    
-            // Execute the SQL query
-            $result = $conn->query($sql);
-    
-            // Check if the insertion was successful
+                    VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ssssssi", $departureAirport, $destinationAirport, $departureDate, $departureTime, $arrivalTime, $duration, $price);
+            $result = $stmt->execute();
             if (!$result) {
                 echo "Failed to add the repeated flight for week $week. Please try again.";
             }
         }
+        $stmt->close();
     }
 
-    public function updateFlight($flightID, $departureAirport, $destinationAirport, $date, $departureTime, $arrivalTime, $duration, $price) {
+    // Updates flight details based on flight ID
+    public function updateFlight($flightID, $departureAirport, $destinationAirport, $date, $departureTime, $arrivalTime, $duration, $price)
+    {
         require "config.php";
-    
-        // Insert the initial flight
-        $sql = "UPDATE flights SET dep_airport='$departureAirport', dest_airport='$destinationAirport', dep_date='$date', dep_time='$departureTime', arr_time='$arrivalTime', duration_min='$duration', price='$price' 
-                WHERE flight_id = $flightID";
-    
-        // Execute the SQL query
-        $result = $conn->query($sql);
-    
-        // Check if the insertion was successful
+
+        // Updates the flight using prepared statements with bind parameters
+        $sql = "UPDATE flights SET dep_airport=?, dest_airport=?, dep_date=?, dep_time=?, arr_time=?, duration_min=?, price=? 
+                WHERE flight_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssssssi", $departureAirport, $destinationAirport, $date, $departureTime, $arrivalTime, $duration, $price, $flightID);
+        $result = $stmt->execute();
+
         if ($result) {
-            echo "Flight with ID:".$flightID." updated successfully!";
+            echo "Flight with ID:" . $flightID . " updated successfully!";
         } else {
             echo "Failed to update the flight. Please try again.";
         }
-    
+
+        $stmt->close();
     }
-    
-    
-    
 
-    public function moveFlightToCancelledTable($flightID) {
+    // A flight becomes cancelled
+    public static function moveCancelledFlights($flightID)
+    {
         require "config.php";
-        $sql = "SELECT * FROM flights WHERE flight_id = $flightID";
-        $result = $conn->query($sql);
 
-            // Check if the flight exists
-    if ($result->num_rows > 0) {
-        $flight = $result->fetch_assoc();
+        require "config.php";
+        $sql = "SELECT * FROM flights WHERE flight_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $flightID);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        $flightID=$flight['flight_id'];
-        $departureAirport=$flight['dep_airport'];
-        $destinationAirport=$flight['dest_airport'];
-        $date=$flight['dep_date'];
-        $departureTime=$flight['dep_time'];
-        $arrivalTime=$flight['arr_time'];
-        $duration=$flight['duration_min'];
-        $price=$flight['price'];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                // Updates status of the flight to 'completed'
+                $update_flights_query = "UPDATE flights SET status = 'cancelled' WHERE flight_id = ?";
+                $stmt = $conn->prepare($update_flights_query);
+                $stmt->bind_param("i", $row['flight_id']);
+                $stmt->execute();
 
-         // Move the flight to the cancelled-flights table
-         $sql = "INSERT INTO cancelled_flights (flight_id, dep_airport, dest_airport, dep_date, dep_time, arr_time, duration_min, price) 
-         VALUES ('$flightID', '$departureAirport', '$destinationAirport', '$date', '$departureTime', '$arrivalTime', '$duration', '$price')";
-            $result = $conn->query($sql);
+                // Updates status of the passengers to 'completed'
+                $update_passengers_query = "UPDATE passengers SET status = 'cancelled' WHERE flight_id = ?";
+                $stmt = $conn->prepare($update_passengers_query);
+                $stmt->bind_param("i", $row['flight_id']);
+                $stmt->execute();
 
-            // Check if the insertion was successful
-            if ($result) {
-                // Delete the flight from the flights table
-                $sql = "DELETE FROM flights WHERE flight_id = $flightID";
-                $result = $conn->query($sql);
-    
-                if ($result) {
-                    return true;
-                }
+                return true;
             }
+        } else {
+            return false;
         }
-    
-        return false;
-    }
-
-    public function movePassengersToCancelledTable($flightID) {
-        require "config.php";
-
-        
-        $sql = "SELECT * FROM passengers WHERE flight_id='$flightID'";
-        $result = $conn->query($sql);
-
-            // Check if the flight exists
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-
-        
-
-        $passengerID=$row['passenger_id'];
-        $bookingID=$row['booking_id'];
-        $passengerName=$row['name'];
-        $passengerSurname=$row['surname'];
-        $passengerTitle=$row['title'];
-        $passengerSeat=$row['seat'];
-
-         // Move the flight to the cancelled-flights table
-         $sql = "INSERT INTO cancelled_flights_passengers (passenger_id, flight_id, booking_id, name, surname, title, seat) 
-         VALUES ('$flightID', '$passengerID', '$bookingID', '$passengerName', '$passengerSurname', '$passengerTitle', '$passengerSeat')";
-            $result = $conn->query($sql);
-
-            // Check if the insertion was successful
-            if ($result) {
-                // Delete the flight from the flights table
-                $sql = "DELETE FROM passengers WHERE flight_id = $flightID";
-                $result = $conn->query($sql);
-    
-                if ($result) {
-                    return true;
-                }
-            }
-        }
-    
-        return true;
     }
 
 
-    public function getPassengersList($flightID) {
+
+    // Gets the list of passengers for a specific flight
+    public function getPassengersList($flightID)
+    {
         require "config.php";
-        $sql = "SELECT * FROM passengers WHERE flight_id='$flightID'";
-        $result = $conn->query($sql);
+        $sql = "SELECT * FROM passengers WHERE flight_id=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $flightID);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         $passengersList = array();
 
@@ -173,33 +143,33 @@ class AdminOptions {
         return $passengersList;
     }
 
-        // Function to fetch passenger document info based on the passengerID
-        public function getPassengerDocumentInfo($passengerID) {
-            require "config.php";
-    
-            // Escape the input to prevent SQL injection
-            $passengerID = mysqli_real_escape_string($conn, $passengerID);
-    
-            $sql = "SELECT * FROM passenger_info WHERE passenger_id='$passengerID'";
-            $result = $conn->query($sql);
-    
-    
-            // Fetch the document info from the result set
-            $passengerDocumentInfo = array();
-    
-
-            while ($row = mysqli_fetch_assoc($result)) {
-                $passengerDocumentInfo[] = $row;
-            }
-    
-    
-            return $passengerDocumentInfo;
-        }
-    
-    // Add other methods for managing flights, such as updating flight details, etc.
-    public function getCancelledFlightsList() {
+    // Function to fetch passenger document info based on the passengerID
+    public function getPassengerDocumentInfo($passengerID)
+    {
         require "config.php";
-        $sql = "SELECT flight_id, dep_airport, dest_airport, dep_date, dep_time, arr_time, duration_min, price FROM cancelled_flights";
+
+        //$passengerID = mysqli_real_escape_string($conn, $passengerID);
+
+        $sql = "SELECT * FROM passenger_info WHERE passenger_id=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $passengerID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $passengerDocumentInfo = array();
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $passengerDocumentInfo[] = $row;
+        }
+
+        return $passengerDocumentInfo;
+    }
+
+    // Gets the list of cancelled flights
+    public function getCancelledFlightsList()
+    {
+        require "config.php";
+        $sql = "SELECT flight_id, dep_airport, dest_airport, dep_date, dep_time, arr_time, duration_min, price FROM flights WHERE status='cancelled';";
         $result = $conn->query($sql);
 
         $flightList = array();
@@ -211,96 +181,73 @@ class AdminOptions {
         return $flightList;
     }
 
-    
-    public function getCancelledPassengersList($flightID) {
-        require "config.php";
-        $sql = "SELECT passenger_id, booking_id, name, surname, title, seat FROM cancelled_flights_passengers WHERE flight_id='$flightID'";
-        $result = $conn->query($sql);
-        
 
-        $passengersList = array();
-
-        while ($row = mysqli_fetch_assoc($result)) {
-            $passengersList[] = $row;
-        }
-
-        return $passengersList;
-    }
-
-   /* public function addAirport($airportID, $airportCity, $airportName, $airportCountry) {
-        require "config.php";
-    
-        // Insert the initial flight
-        $sql = "INSERT INTO airports (airport_ID , airport_city, airport_name, country) 
-                VALUES ('$airportID', '$airportCity', '$airportName', '$airportCountry')";
-        // Execute the SQL query
-        $result = $conn->query($sql);
-    
-        // Check if the insertion was successful
-        if ($result) {
-            echo "Airport added successfully!";
-        } else {
-            echo "Failed to add the airport. Please try again.";
-        }
-    
-    }*/
-    public function addAirport($airportID, $airportCity, $airportName, $airportCountry) {
-    require "config.php";
-
-    $sql = "SELECT * FROM airports WHERE airport_ID='$airportID'";
-        $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        echo "Airport already exists.";
-    $conn->close();}
-    else
+    // Adds a new airport if it doesn't already exist
+    public function addAirport($airportID, $airportCity, $airportName, $airportCountry)
     {
-    // Prepare the SQL statement
-    $sql = "INSERT INTO airports (airport_ID, airport_city, airport_name, country) 
-            VALUES (?, ?, ?, ?)";
-
-    // Prepare the statement
-    $stmt = $conn->prepare($sql);
-
-    // Bind the parameters
-    $stmt->bind_param("ssss", $airportID, $airportCity, $airportName, $airportCountry);
-
-    // Execute the statement
-    $result = $stmt->execute();
-
-    // Check if the insertion was successful
-    if ($result) {
-        echo "Airport added successfully!";
-    } else {
-        echo "Failed to add the airport. Please try again.";
-    }
-        // Close the statement and database connection
-        $stmt->close();
-    }
-
-    }
-
-
-    public function checkAirportInFlights($airportID) {
         require "config.php";
-        
-        // Check if the airport is present in the flights table
-        $sql = "SELECT * FROM flights WHERE dep_airport = '$airportID' OR dest_airport = '$airportID'";
-        $result = $conn->query($sql);
-        
-        if ($result->num_rows>0) {
-            // Return true if the airport is present in flights table
+
+        $sql = "SELECT * FROM airports WHERE airport_ID=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $airportID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            echo "Airport already exists.";
+            $stmt->close();
+            $conn->close();
+        } else {
+
+            $sql = "INSERT INTO airports (airport_ID, airport_city, airport_name, country) 
+        VALUES (?, ?, ?, ?)";
+
+            $stmt = $conn->prepare($sql);
+
+            $stmt->bind_param("ssss", $airportID, $airportCity, $airportName, $airportCountry);
+
+
+            $result = $stmt->execute();
+
+            if ($result) {
+                echo "Airport added successfully!";
+            } else {
+                echo "Failed to add the airport. Please try again.";
+            }
+
+
+            $stmt->close();
+        }
+    }
+
+    // Checks if an airport is used in any existing flights
+    public function checkAirportInFlights($airportID)
+    {
+        require "config.php";
+
+        $sql = "SELECT * FROM flights WHERE dep_airport = ? OR dest_airport = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ss", $airportID, $airportID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            // Returns true if the airport is in flights table
             return true;
         } else {
             return false;
         }
     }
-    public function getUserList() {
+
+
+    // Gets the list of users
+    public function getUserList()
+    {
         require "config.php";
         $sql = "SELECT username, surname, type FROM user";
         $result = $conn->query($sql);
 
-        $flightList = array();
+        $userList = array();
 
         while ($row = mysqli_fetch_assoc($result)) {
             $userList[] = $row;
@@ -308,33 +255,40 @@ class AdminOptions {
 
         return $userList;
     }
-    public function getAccountBookings($username) {
+
+    // Gets the list of bookings for a user
+    public function getAccountBookings($username)
+    {
         require "config.php";
-    
-        $bookingQuery = "SELECT * FROM bookings WHERE username = '$username'";
-        $bookingResult = $conn->query($bookingQuery);
-    
+
+        $bookingQuery = "SELECT * FROM bookings WHERE username=?";
+        $stmtBooking = $conn->prepare($bookingQuery);
+        $stmtBooking->bind_param("s", $username);
+        $stmtBooking->execute();
+        $bookingResult = $stmtBooking->get_result();
+
         $bookings = array();
-        $booking = array(); 
-    
+
         while ($bookingRow = mysqli_fetch_assoc($bookingResult)) {
             $bookingID = $bookingRow['booking_id'];
-    
-            // Retrieve 'go' flights based on booking ID
+
+            // Retrieves 'go' flights based on booking ID
             $flightQueryGo = "SELECT * FROM flights 
-                              WHERE flight_id IN (
-                                  SELECT flight_id FROM passengers WHERE booking_id = $bookingID AND trip_type = 'go'
-                              )";
-            $flightResultGo = $conn->query($flightQueryGo);
-    
-            // Process 'go' flights for this booking
+                            WHERE flight_id IN (
+                                SELECT flight_id FROM passengers WHERE booking_id=? AND trip_type='go'
+                            )";
+            $stmtFlightGo = $conn->prepare($flightQueryGo);
+            $stmtFlightGo->bind_param("i", $bookingID);
+            $stmtFlightGo->execute();
+            $flightResultGo = $stmtFlightGo->get_result();
+
+
             while ($flightRowGo = mysqli_fetch_assoc($flightResultGo)) {
-               
                 $booking['booking_id'] = $bookingRow['booking_id'];
                 $booking['book_date'] = $bookingRow['date'];
                 $booking['book_time'] = $bookingRow['time'];
                 $booking['book_price'] = $bookingRow['price'];
-    
+
                 $booking['flight_id'] = $flightRowGo['flight_id'];
                 $booking['dep_airport'] = $flightRowGo['dep_airport'];
                 $booking['dest_airport'] = $flightRowGo['dest_airport'];
@@ -343,14 +297,18 @@ class AdminOptions {
                 $booking['arr_time'] = $flightRowGo['arr_time'];
                 $booking['duration_min'] = $flightRowGo['duration_min'];
                 $booking['price'] = $flightRowGo['price'];
-    
-                // Retrieve passenger information for 'go' flight
+                $booking['status'] = $flightRowGo['status'];
+
+                // Retrieves passenger information for 'go' flight
                 $passengerQueryGo = "SELECT * FROM passengers 
-                                     WHERE booking_id = $bookingID 
-                                     AND flight_id = " . $flightRowGo['flight_id'] . "
-                                     AND trip_type = 'go'";
-                $passengerResultGo = $conn->query($passengerQueryGo);
-    
+                                    WHERE booking_id=? 
+                                    AND flight_id=?
+                                    AND trip_type='go'";
+                $stmtPassengerGo = $conn->prepare($passengerQueryGo);
+                $stmtPassengerGo->bind_param("ii", $bookingID, $flightRowGo['flight_id']);
+                $stmtPassengerGo->execute();
+                $passengerResultGo = $stmtPassengerGo->get_result();
+
                 $passengersGo = array();
                 while ($passengerRowGo = mysqli_fetch_assoc($passengerResultGo)) {
                     $passenger = array();
@@ -362,20 +320,23 @@ class AdminOptions {
                     $passenger['trip_type'] = $passengerRowGo['trip_type'];
                     $passengersGo[] = $passenger;
                 }
-    
+
                 $booking['passengers'] = $passengersGo;
-                $booking['isReturn'] = false; // Set 'isReturn' flag to false for 'go' flights
+                $booking['isReturn'] = false;
                 $bookings[] = $booking;
             }
-    
-            // Retrieve 'return' flights based on booking ID
+
+            // Retrieves 'return' flights based on booking ID
             $flightQueryReturn = "SELECT * FROM flights 
-                                  WHERE flight_id IN (
-                                      SELECT flight_id FROM passengers WHERE booking_id = $bookingID AND trip_type = 'return'
-                                  )";
-            $flightResultReturn = $conn->query($flightQueryReturn);
-    
-            // If there are any 'return' flights, process them for this booking
+                                WHERE flight_id IN (
+                                    SELECT flight_id FROM passengers WHERE booking_id=? AND trip_type='return'
+                                )";
+            $stmtFlightReturn = $conn->prepare($flightQueryReturn);
+            $stmtFlightReturn->bind_param("i", $bookingID);
+            $stmtFlightReturn->execute();
+            $flightResultReturn = $stmtFlightReturn->get_result();
+
+            // If there are any 'return' flights
             if (mysqli_num_rows($flightResultReturn) > 0) {
                 while ($flightRowReturn = mysqli_fetch_assoc($flightResultReturn)) {
                     $booking['flight_idR'] = $flightRowReturn['flight_id'];
@@ -386,20 +347,18 @@ class AdminOptions {
                     $booking['arr_timeR'] = $flightRowReturn['arr_time'];
                     $booking['duration_minR'] = $flightRowReturn['duration_min'];
                     $booking['priceR'] = $flightRowReturn['price'];
-    
-                    // No passengers for 'return' flight, so set passengers as an empty array
+                    $booking['statusR'] = $flightRowReturn['status'];
+
+
                     $booking['passengersR'] = array();
-                    $booking['isReturn'] = true; // Set 'isReturn' flag to true for 'return' flights
+                    $booking['isReturn'] = true;
                     $bookings[] = $booking;
                 }
             } else {
-                $booking['isReturn'] = false; // Set 'isReturn' flag to false when there are no 'return' flights
+                $booking['isReturn'] = false;
             }
         }
-    
+
         return $bookings;
     }
-    
 }
-
-

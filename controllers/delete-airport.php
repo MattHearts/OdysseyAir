@@ -2,15 +2,15 @@
 session_start();
 require "../models/config.php";
 
-// Check if the airport ID is provided
+// Checks if the airport ID is provided
 if (isset($_POST['airportID'])) {
     $airportID = $_POST['airportID'];
 
-    // Perform the delete operation
+    // Performs the delete operation
     $sql = "DELETE FROM airports WHERE airport_ID = '$airportID'";
     $result = $conn->query($sql);
 
-    // Check if the deletion was successful
+    // Checks if the deletion was successful
     if ($result) {
         echo "Airport deleted successfully!";
     } else {

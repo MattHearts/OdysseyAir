@@ -1,141 +1,126 @@
 <?php
-//κλαση για τον user που έκανε log
-class User{
+class User
+{
     public $username;
     public $password;
     public $surname;
     public $email;
-    public $type=1;
-    public $usernameErr="";
-    public $passwordErr="";
-    public $surnameErr="";
-    public $loginErr="";
+    public $type = 1;
+    public $usernameErr = "";
+    public $passwordErr = "";
+    public $surnameErr = "";
+    public $loginErr = "";
 
-
+    // Function to log in the user
     function loginUser()
     {
         require "config.php";
 
-        $loginquery = "SELECT * FROM user WHERE username='$this->username' AND password = '$this->password'";
-        $result =$conn->query($loginquery);
-        if ($result->num_rows > 0) 
-        {
+        // Searches for the user
+        $loginquery = "SELECT username, password, surname, type FROM user WHERE username=?";
+        $stmt = $conn->prepare($loginquery);
+        $stmt->bind_param("s", $this->username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            $this->type= $row['type'];
-            $this->username= $row['username'];
-            $this->surname= $row['surname'];
+            $storedPassword = $row['password'];
+            $this->type = $row['type'];
+            $this->username = $row['username'];
+            $this->surname = $row['surname'];
 
-                    // Generate a random token
-        $token = bin2hex(random_bytes(32));
+            // Verify the provided password with the stored hashed password
+            if (password_verify($this->password, $storedPassword)) {
+                // Password is correct, generate a new token
+                $token = bin2hex(random_bytes(32));
+                $_SESSION['auth_token'] = $token;
+                $_SESSION['username'] = $this->username;
+                $_SESSION['utype'] = $this->type;
+                $_SESSION['surname'] = $this->surname;
 
+                setcookie('auth_token', $token, time() + 3600, '/');
+                $query = "UPDATE user SET token = ? WHERE username = ?";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("ss", $token, $this->username);
+                $stmt->execute();
+                $stmt->close();
+                $conn->close();
 
-
-        $_SESSION['auth_token'] = $token;
-            
-            $_SESSION['username']=$this->username;
-            $_SESSION['utype']=$this->type;
-            $_SESSION['surname']=$this->surname;
-
-            setcookie('auth_token', $token, time() + 3600, '/');
-            $query = "UPDATE user SET token = '$token' WHERE username = '$this->username'";
-            $conn->query($query);
-
-            $conn->close();
-		
-            if($_SESSION['loggedToBook']==true){
-                echo "<script>window.location.href='../controllers/passenger-details.php'</script>";
-                $_SESSION['loggedToBook']=false;
+                if ($_SESSION['loggedToBook'] == true) {
+                    echo "<script>window.location.href='../controllers/passenger-details.php'</script>";
+                    $_SESSION['loggedToBook'] = false;
+                } else if ($this->type == 2) {
+                    echo "<script>window.location.href='../controllers/admin-menu.php'</script>";
+                } else {
+                    echo "<script>window.location.href='../controllers/index.php'</script>";
+                }
+            } else {
+                // Incorrect password
+                $this->loginErr = "Wrong credentials";
+                $stmt->close();
+                $conn->close();
             }
-            else if ($this->type == 2) {
-                echo "<script>window.location.href='../controllers/admin-menu.php'</script>";
-            }
-            else
-            echo "<script>window.location.href='../controllers/index.php'</script>";
-
-        }
-        else
-        {
+        } else {
+            // User not found
+            $this->loginErr = "User not found";
+            $stmt->close();
             $conn->close();
-            $this->loginErr = "Wrong credentials";
         }
     }
 
+    // Function to register a new user
     function register_user()
     {
-        
         require "config.php";
-        $err=false;
+        $err = false;
 
-        $registerquery = "SELECT *  FROM user WHERE username='$this->username' ";
-        $result = $conn->query( $registerquery);
-        
-        if (empty($this->username)) 
-        {
-            $this->usernameErr="Email is required";
-            //die("<p>Please fill all required fields!</p>");
-            $err=true;
-            
-            
-        }
+        // Checks if user already exists
+        $registerquery = "SELECT * FROM user WHERE username=?";
+        $stmt = $conn->prepare($registerquery);
+        $stmt->bind_param("s", $this->username);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        else if (!filter_var($this->username, FILTER_VALIDATE_EMAIL)) {
+        // Validates data
+        if (empty($this->username)) {
+            $this->usernameErr = "Email is required";
+            $err = true;
+        } else if (!filter_var($this->username, FILTER_VALIDATE_EMAIL)) {
             $this->usernameErr = "Invalid email format";
-            
-            $err=true;
-          }
-                
-        else if ($result->num_rows > 0) 
-        {
-            $this->usernameErr="Email already exists";
-            //echo "<p>This account already exists.</p>";
-            
-            $err=true;
-            
+            $err = true;
+        } else if ($result->num_rows > 0) {
+            $this->usernameErr = "Email already exists";
+            $err = true;
         }
 
-        if (empty($this->surname))
-        {
-            $this->surnameErr="Surname is required";
-            
-            $err=true;
+        if (empty($this->surname)) {
+            $this->surnameErr = "Surname is required";
+            $err = true;
         }
 
-        if (strlen($this->password)<8)
-        {
-            $this->passwordErr="Password must be 8 characters or more";
-            
-            $err=true;
-        }
-        
-        if (empty($this->password))
-        {
-            $this->passwordErr="Password is required";
-            
-            $err=true;
+        if (strlen($this->password) < 8) {
+            $this->passwordErr = "Password must be 8 characters or more";
+            $err = true;
         }
 
+        if (empty($this->password)) {
+            $this->passwordErr = "Password is required";
+            $err = true;
+        }
 
-        
-
-        
-        if ($err==false)
-	    {
-			
-		$registerquery = "INSERT INTO user (username, password, surname, type)
-		VALUES ('$this->username', '$this->password','$this->surname',1)";
-
-		if ($conn->query($registerquery)) 
-		{
-		
-			//$_SESSION['username']=$this->username;
-			//$_SESSION['utype']=$this->type;
-			//$_SESSION['surname']=$this->surname;
-			$conn->close();
+        // If err is false, insert a new user into the database
+        if ($err == false) {
+            $registerquery = "INSERT INTO user (username, password, surname, type) VALUES (?, ?, ?, 1)";
+            $stmt = $conn->prepare($registerquery);
+            $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
+            $stmt->bind_param("sss", $this->username, $hashedPassword, $this->surname);
+            $stmt->execute();
+            $stmt->close();
+            $conn->close();
             echo "<script>window.location.href='../controllers/login.php'</script>";
-        }
-        }
-        else if ($err==true)
-        {
+        } else if ($err == true) {
+            $stmt->close();
             $conn->close();
         }
     }

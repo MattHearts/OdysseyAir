@@ -4,6 +4,7 @@ require "../models/Authentication.php";
 $auth1 = new Authentication();
 // Selects token
 $token = isset($_COOKIE['auth_token']) ? $_COOKIE['auth_token'] : (isset($_SESSION['auth_token']) ? $_SESSION['auth_token'] : null);
+
 if ($auth1->isAuthenticated($token)) {
     $username = $_SESSION['username'];
     // Check if user is admin
@@ -13,7 +14,7 @@ if ($auth1->isAuthenticated($token)) {
 
 
         $options = new AdminOptions();
-        $flightList = $options->getFlightList();
+        $flightList = $options->getCompletedFlightList();
 
 
 
@@ -23,16 +24,13 @@ if ($auth1->isAuthenticated($token)) {
 
         <div class="layout2">
             <div class="flight-list">
-                <h2 style="text-align: center;">Active Flight List</h2>
-                <button class="add-flights-button" id="add-flights-button">Add Flights</button>
-                <button class="view-cancelled-flights-button" id="view-completed-flights-button" onclick='gotoCompletedFlights()'>View Completed Flights</button>
-                <button class="view-cancelled-flights-button" id="view-cancelled-flights-button" onclick='gotoCancelledFlights()'>View Cancelled Flights</button>
-                <div class="search-box">
-                    <label for="search-input">Search:</label>
-                    <input type="text" id="search-input" oninput="performSearch()">
-                </div>
-                <div class="flight-list-container">
+                <h2 style="text-align: center;">Completed Flight List</h2>
 
+                <div class="flight-list-container">
+                    <div>
+                        <label for="search-input">Search:</label>
+                        <input type="text" id="search-input" oninput="performSearch()">
+                    </div>
                     <table>
                         <thead>
                             <tr>
@@ -46,9 +44,7 @@ if ($auth1->isAuthenticated($token)) {
                                 <th>Duration</th>
                                 <th>Price</th>
                                 <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+
 
                             </tr>
                         </thead>
@@ -66,8 +62,6 @@ if ($auth1->isAuthenticated($token)) {
                                 echo "<td>" . $flight['duration_min'] . " minutes</td>";
                                 echo "<td>" . $flight['price'] . "</td>";
                                 echo "<td><button class='passengers-button' onclick='viewPassengers(" . $flight['flight_id'] . ")' id='passengers-button'>Passengers</button></td>";
-                                echo "<td><button class='edit-button' data-flight-id='" . $flight['flight_id'] . "' id='edit-flights-button'>Edit</button></td>";
-                                echo "<td><button class='delete-button' onclick='deleteFlight(" . $flight['flight_id'] . ")'>Cancel</button></td>";
                                 echo "</tr>";
                             }
                             ?>
@@ -84,6 +78,7 @@ if ($auth1->isAuthenticated($token)) {
         <div id="add-flights-popup" class="popup">
             <div class="popup-content">
                 <span class="close">&times;</span>
+
                 <form id="flight-form">
 
                     <label for="departure-airport">Departure Airport:</label>
@@ -91,25 +86,26 @@ if ($auth1->isAuthenticated($token)) {
                         <!-- Options are populated using AJAX -->
                     </select>
 
+
                     <label for="destination-airport">Destination Airport:</label>
                     <select id="destination-airport" name="destination_airport">
                         <!-- Options are populated using AJAX -->
                     </select>
 
                     <label for="flight-date">Date of Flight:</label>
-                    <input type="date" id="flight-date" name="flight_date" placeholder="Select date from calendar" required>
+                    <input type="date" id="flight-date" name="flight_date" placeholder="Select date from calendar">
 
                     <label for="departure-time">Departure Time:</label>
-                    <input type="text" id="departure-time" name="departure_time" placeholder="Enter departure time" required>
+                    <input type="text" id="departure-time" name="departure_time" placeholder="Enter departure time">
 
                     <label for="arrival-time">Arrival Time:</label>
-                    <input type="text" id="arrival-time" name="arrival_time" placeholder="Enter arrival time" required>
+                    <input type="text" id="arrival-time" name="arrival_time" placeholder="Enter arrival time">
 
                     <label for="flight-duration">Duration of Flight (minutes):</label>
-                    <input type="number" id="flight-duration" name="flight_duration" required>
+                    <input type="number" id="flight-duration" name="flight_duration">
 
                     <label for="flight_price">Price:</label>
-                    <input type="number" id="price" name="flight_price" required>
+                    <input type="number" id="price" name="flight_price">
 
                     <label for="repeat-weeks">Repeat for how many weeks:</label>
                     <input type="number" id="repeat-weeks" name="repeat-weeks" min="1" required>
@@ -139,19 +135,19 @@ if ($auth1->isAuthenticated($token)) {
                     </select>
 
                     <label for="e-flight-date">Date of Flight:</label>
-                    <input type="date" id="e-flight-date" name="e-flight_date" placeholder="Select date from calendar" required>
+                    <input type="date" id="e-flight-date" name="e-flight_date" placeholder="Select date from calendar">
 
                     <label for="e-departure-time">Departure Time:</label>
-                    <input type="text" id="e-departure-time" name="e-departure_time" placeholder="Enter departure time" required>
+                    <input type="text" id="e-departure-time" name="e-departure_time" placeholder="Enter departure time">
 
                     <label for="e-arrival-time">Arrival Time:</label>
-                    <input type="text" id="e-arrival-time" name="e-arrival_time" placeholder="Enter arrival time" required>
+                    <input type="text" id="e-arrival-time" name="e-arrival_time" placeholder="Enter arrival time">
 
                     <label for="e-flight-duration">Duration of Flight (minutes):</label>
-                    <input type="number" id="e-flight-duration" name="e-flight_duration" required>
+                    <input type="number" id="e-flight-duration" name="e-flight_duration">
 
                     <label for="e-flight_price">Price:</label>
-                    <input type="number" id="e-price" name="e-flight_price" required>
+                    <input type="number" id="e-price" name="e-flight_price">
 
                     <button type="submit" data-flight-id="<?php echo $flightId; ?>">Add Flight</button>
 

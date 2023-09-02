@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Initially disable the "Return" date field
     returnDateInput.disabled = true;
 
-    // Add event listener to the radio buttons
+    // Event listener to the radio buttons
     oneWayRadio.addEventListener("change", function() {
         returnDateInput.disabled = true;
     });

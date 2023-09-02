@@ -6,7 +6,7 @@ function performSearch() {
     table = document.querySelector("table");
     tr = table.getElementsByTagName("tr");
 
-    for (i = 1; i < tr.length; i++) { // Start from 1 to skip the table header row
+    for (i = 1; i < tr.length; i++) { // Starts from 1 to skip the table header row
         td = tr[i].getElementsByTagName("td");
         var found = false;
         for (j = 0; j < td.length; j++) {
@@ -17,9 +17,9 @@ function performSearch() {
             }
         }
         if (found) {
-            tr[i].style.display = ""; // Show matching rows
+            tr[i].style.display = ""; // Shows matching rows
         } else {
-            tr[i].style.display = "none"; // Hide non-matching rows
+            tr[i].style.display = "none"; // Hides non-matching rows
         }
     }
 }

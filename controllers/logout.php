@@ -1,13 +1,12 @@
 <?php
 session_start();
 
-// Clear all session variables
+// Clears all session variables
 $_SESSION = array();
 
-// Destroy the session
+// Destroys the session
 session_destroy();
 
-// Redirect the user to the login page or any other desired location
+// Redirects the user to the main page
 header("Location: ../index.php");
 exit();
-?>

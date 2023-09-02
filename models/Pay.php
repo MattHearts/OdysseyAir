@@ -1,5 +1,4 @@
 <?php
-//class for ticket search
 class Pay{
     public $cardNumber;
     public $cardName;
@@ -11,6 +10,7 @@ class Pay{
 
     public $err=false;
 
+    // Validates card data
     function validateCard(){
         if (strlen($this->cardNumber) != 19) {
             $this->numErr = "Please enter a 16-digit card number";
